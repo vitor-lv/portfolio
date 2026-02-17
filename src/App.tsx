@@ -40,7 +40,7 @@ export default function App() {
       <main className="main">
         <section className="hero">
           <h1>
-            Designing digital products <span>that feel effortless.</span>
+          Design that turns <span><br></br>complexity into clarity</span>
           </h1>
 
           <p className="subtitle">
