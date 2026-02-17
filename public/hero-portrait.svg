@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="700" viewBox="0 0 600 700">
+  <rect width="600" height="700" fill="#1a1a1a"/>
+  <text x="300" y="340" font-family="system-ui, sans-serif" font-size="18" fill="#555" text-anchor="middle">Replace with your photo</text>
+  <text x="300" y="365" font-family="system-ui, sans-serif" font-size="14" fill="#444" text-anchor="middle">public/hero-portrait.jpg</text>
+</svg>
