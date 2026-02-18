@@ -14,154 +14,195 @@ export default function InteractiveBackground() {
     let height = 0;
 
     const mouse = { x: 0.5, y: 0.5 };
-    const targetMouse = { x: 0.5, y: 0.5 };
+    const target = { x: 0.5, y: 0.5 };
 
-    // Create grain texture (offscreen canvas)
+    // Offscreen canvas for blur layer
+    const glowCanvas = document.createElement("canvas");
+    const glowCtx = glowCanvas.getContext("2d");
+
+    // Grain texture
     const grainCanvas = document.createElement("canvas");
     const grainCtx = grainCanvas.getContext("2d");
 
-    const generateGrain = () => {
+    const createGrain = () => {
       if (!grainCtx) return;
 
-      const grainSize = 220;
-      grainCanvas.width = grainSize;
-      grainCanvas.height = grainSize;
+      const size = 220;
+      grainCanvas.width = size;
+      grainCanvas.height = size;
 
-      const imageData = grainCtx.createImageData(grainSize, grainSize);
+      const imageData = grainCtx.createImageData(size, size);
       const data = imageData.data;
 
       for (let i = 0; i < data.length; i += 4) {
-        const value = Math.floor(Math.random() * 255);
-        data[i] = value;
-        data[i + 1] = value;
-        data[i + 2] = value;
-        data[i + 3] = 35; // alpha
+        const v = Math.floor(Math.random() * 255);
+        data[i] = v;
+        data[i + 1] = v;
+        data[i + 2] = v;
+        data[i + 3] = 22;
       }
 
       grainCtx.putImageData(imageData, 0, 0);
     };
 
-    generateGrain();
+    createGrain();
 
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
 
       const dpr = window.devicePixelRatio || 1;
+
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      glowCanvas.width = width * dpr;
+      glowCanvas.height = height * dpr;
+      glowCtx?.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resize();
     window.addEventListener("resize", resize);
 
     const onMouseMove = (e: MouseEvent) => {
-      targetMouse.x = e.clientX / width;
-      targetMouse.y = e.clientY / height;
+      target.x = e.clientX / width;
+      target.y = e.clientY / height;
     };
 
     window.addEventListener("mousemove", onMouseMove);
 
+    const drawGlow = (
+      x: number,
+      y: number,
+      radius: number,
+      color: string,
+      alpha: number
+    ) => {
+      if (!glowCtx) return;
+
+      const g = glowCtx.createRadialGradient(x, y, 0, x, y, radius);
+      g.addColorStop(0, `${color}${alpha})`);
+      g.addColorStop(0.35, `${color}${alpha * 0.35})`);
+      g.addColorStop(0.7, `${color}${alpha * 0.12})`);
+      g.addColorStop(1, `${color}0)`);
+
+      glowCtx.fillStyle = g;
+      glowCtx.fillRect(0, 0, width, height);
+    };
+
     let rafId = 0;
 
     const animate = (time: number) => {
-      const t = time * 0.001; // seconds
+      const t = time * 0.001;
 
-      // Smooth follow (premium easing)
-      mouse.x += (targetMouse.x - mouse.x) * 0.045;
-      mouse.y += (targetMouse.y - mouse.y) * 0.045;
+      // Smooth but responsive follow
+      mouse.x += (target.x - mouse.x) * 0.09;
+      mouse.y += (target.y - mouse.y) * 0.09;
+
+      const mx = mouse.x - 0.5;
+      const my = mouse.y - 0.5;
 
       ctx.clearRect(0, 0, width, height);
 
-      // Base background
-      ctx.fillStyle = "#000";
+      // True black base
+      ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, width, height);
 
-      // Slow drift values (so it moves even without mouse)
-      const driftX1 = Math.sin(t * 0.4) * 0.06;
-      const driftY1 = Math.cos(t * 0.35) * 0.06;
+      if (!glowCtx) return;
+      glowCtx.clearRect(0, 0, width, height);
 
-      const driftX2 = Math.cos(t * 0.32) * 0.07;
-      const driftY2 = Math.sin(t * 0.28) * 0.07;
+      // drift
+      const drift1X = Math.sin(t * 0.22) * 0.05;
+      const drift1Y = Math.cos(t * 0.18) * 0.05;
 
-      // Blob 1 (purple)
-      const blob1X = width * (0.25 + mouse.x * 0.25 + driftX1);
-      const blob1Y = height * (0.3 + mouse.y * 0.25 + driftY1);
+      const drift2X = Math.cos(t * 0.19) * 0.05;
+      const drift2Y = Math.sin(t * 0.16) * 0.05;
 
-      const grad1 = ctx.createRadialGradient(
-        blob1X,
-        blob1Y,
-        0,
-        blob1X,
-        blob1Y,
-        width * 0.7
-      );
+      // stronger parallax
+      const px = mx * 0.55;
+      const py = my * 0.45;
 
-      grad1.addColorStop(0, "rgba(120, 60, 255, 0.65)");
-      grad1.addColorStop(0.4, "rgba(120, 60, 255, 0.18)");
-      grad1.addColorStop(1, "rgba(0,0,0,0)");
+      // Blob positions (always separated)
+      let b1x = width * (0.28 + drift1X + px * 0.28);
+      let b1y = height * (0.42 + drift1Y + py * 0.22);
 
-      ctx.fillStyle = grad1;
-      ctx.fillRect(0, 0, width, height);
+      let b2x = width * (0.72 + drift2X - px * 0.28);
+      let b2y = height * (0.58 + drift2Y - py * 0.22);
 
-      // Blob 2 (blue)
-      const blob2X = width * (0.75 - mouse.x * 0.25 + driftX2);
-      const blob2Y = height * (0.55 - mouse.y * 0.2 + driftY2);
+      // Distance and merge strength
+      const dx = b2x - b1x;
+      const dy = b2y - b1y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
 
-      const grad2 = ctx.createRadialGradient(
-        blob2X,
-        blob2Y,
-        0,
-        blob2X,
-        blob2Y,
-        width * 0.75
-      );
+      const mergeThreshold = width * 0.52;
+      const merge = Math.max(0, 1 - dist / mergeThreshold);
 
-      grad2.addColorStop(0, "rgba(0, 180, 255, 0.55)");
-      grad2.addColorStop(0.45, "rgba(0, 180, 255, 0.14)");
-      grad2.addColorStop(1, "rgba(0,0,0,0)");
+      // Radius stays controlled (black visible)
+      const r1 = width * (0.34 + merge * 0.05);
+      const r2 = width * (0.34 + merge * 0.05);
 
-      ctx.fillStyle = grad2;
-      ctx.fillRect(0, 0, width, height);
+      // Blur (premium, not overkill)
+      glowCtx.filter = "blur(60px)";
+      glowCtx.globalCompositeOperation = "screen";
 
-      // Extra subtle glow layer (depth)
-      const glowX = width * (0.5 + Math.sin(t * 0.15) * 0.12);
-      const glowY = height * (0.5 + Math.cos(t * 0.18) * 0.12);
+      // Glow blob (left)
+      drawGlow(b1x, b1y, r1, "rgba(20, 95, 136, ", 0.52);
 
-      const grad3 = ctx.createRadialGradient(
-        glowX,
-        glowY,
-        0,
-        glowX,
-        glowY,
-        width * 0.9
-      );
+      // Glow blob (right)
+      drawGlow(b2x, b2y, r2, "rgba(20, 95, 136, ", 0.48);
 
-      grad3.addColorStop(0, "rgba(255, 255, 255, 0.06)");
-      grad3.addColorStop(1, "rgba(0,0,0,0)");
+      // Bridge metaball (only when close)
+      if (merge > 0.05) {
+        const midX = (b1x + b2x) / 2;
+        const midY = (b1y + b2y) / 2;
 
-      ctx.fillStyle = grad3;
-      ctx.fillRect(0, 0, width, height);
+        drawGlow(
+          midX,
+          midY,
+          width * (0.26 + merge * 0.1),
+          "rgba(255, 255, 255, ",
+          0.04 + merge * 0.12
+        );
 
-      // Grain overlay (NO flicker)
+        drawGlow(
+          midX,
+          midY,
+          width * (0.32 + merge * 0.12),
+          "rgba(20, 95, 136, ",
+          0.06 + merge * 0.08
+        );
+
+        drawGlow(
+          midX,
+          midY,
+          width * (0.32 + merge * 0.12),
+          "rgba(20, 95, 136, ",
+          0.05 + merge * 0.07
+        );
+      }
+
+      glowCtx.filter = "none";
+      glowCtx.globalCompositeOperation = "source-over";
+
+      // Render glow layer (keep black dominant)
+      ctx.globalAlpha = 0.78;
+      ctx.drawImage(glowCanvas, 0, 0);
+      ctx.globalAlpha = 1;
+
+      // Grain overlay
       if (grainCtx) {
-        ctx.globalAlpha = 0.20;
         ctx.globalCompositeOperation = "overlay";
+        ctx.globalAlpha = 0.12;
 
-        const grainOffsetX = (t * 18) % grainCanvas.width;
-        const grainOffsetY = (t * 14) % grainCanvas.height;
+        const ox = (t * 10) % grainCanvas.width;
+        const oy = (t * 8) % grainCanvas.height;
 
         for (let x = -grainCanvas.width; x < width + grainCanvas.width; x += grainCanvas.width) {
           for (let y = -grainCanvas.height; y < height + grainCanvas.height; y += grainCanvas.height) {
-            ctx.drawImage(
-              grainCanvas,
-              x - grainOffsetX,
-              y - grainOffsetY
-            );
+            ctx.drawImage(grainCanvas, x - ox, y - oy);
           }
         }
 

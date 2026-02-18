@@ -9,23 +9,23 @@ export default function Home() {
       <section className="hero heroRef">
         <div className="heroRefInner">
           <div className="heroRefText">
-            <p className="heroRefLine1">I'm Vitor LV,</p>
+            <p className="heroRefLine1">Hello, I'm Vitor LV</p>
             <h1 className="heroRefTitle">Lead Designer</h1>
             <p className="heroRefLine2">
-              with 10+ years designing fintech products at Itaú.
+            Over a decade designing and scaling fintech experiences
             </p>
+            <div className="heroRefLogos">
+              <img src="/logos-companies.svg" alt="Companies" className="heroRefLogosImg" />
+            </div>
           </div>
-
         </div>
 
         <a
           href="#work"
           className="heroScrollIndicator"
-          aria-label="Scroll to work"
+          aria-label="Scroll to see more content"
         >
           <svg
-            width="24"
-            height="24"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
