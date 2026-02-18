@@ -135,9 +135,6 @@ a {
   }
 }
 
-.nav a:hover {
-  color: var(--text);
-}
 
 .hero {
   margin-bottom: 56px;
@@ -310,8 +307,8 @@ a {
   color: rgba(255, 255, 255, 0.7);
   padding: 10px;
   text-decoration: none;
-  transition: color 0.2s ease;
-  animation: heroScrollBounce 2s ease-in-out infinite;
+  transition: color 0.1s ease;
+  animation: heroScrollBounce 1s ease-in-out infinite;
 }
 
 .heroScrollIndicator:hover {

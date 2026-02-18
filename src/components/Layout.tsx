@@ -11,8 +11,8 @@ export default function Layout() {
     <>
       <NavLink to="/" end onClick={closeMenu}>Home</NavLink>
       <a href="/#work" onClick={closeMenu}>Work</a>
-      <a href="https://linkedin.com" target="_blank" rel="noreferrer" onClick={closeMenu}>Linkedin</a>
-      <a href="https://instagram.com" target="_blank" rel="noreferrer" onClick={closeMenu}>Instagram</a>
+      <a href="https://www.linkedin.com/in/vitor-lv-4536a06b/" target="_blank" rel="noreferrer" onClick={closeMenu}>Linkedin</a>
+      <a href="https://www.instagram.com/vitor.lvv/" target="_blank" rel="noreferrer" onClick={closeMenu}>Instagram</a>
       <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
     </>
   );

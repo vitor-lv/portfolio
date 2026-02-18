@@ -98,9 +98,10 @@ export default function InteractiveBackground() {
     const animate = (time: number) => {
       const t = time * 0.001;
 
-      // Smooth but responsive follow
-      mouse.x += (target.x - mouse.x) * 0.09;
-      mouse.y += (target.y - mouse.y) * 0.09;
+      // Lerp suave: segue o mouse devagar e para suave, sem overshoot/balanço
+      const smooth = 0.065;
+      mouse.x += (target.x - mouse.x) * smooth;
+      mouse.y += (target.y - mouse.y) * smooth;
 
       const mx = mouse.x - 0.5;
       const my = mouse.y - 0.5;
@@ -114,23 +115,23 @@ export default function InteractiveBackground() {
       if (!glowCtx) return;
       glowCtx.clearRect(0, 0, width, height);
 
-      // drift
-      const drift1X = Math.sin(t * 0.22) * 0.05;
-      const drift1Y = Math.cos(t * 0.18) * 0.05;
+      // drift (subtle)
+      const drift1X = Math.sin(t * 0.22) * 0.03;
+      const drift1Y = Math.cos(t * 0.18) * 0.03;
 
-      const drift2X = Math.cos(t * 0.19) * 0.05;
-      const drift2Y = Math.sin(t * 0.16) * 0.05;
+      const drift2X = Math.cos(t * 0.19) * 0.03;
+      const drift2Y = Math.sin(t * 0.16) * 0.03;
 
-      // stronger parallax
-      const px = mx * 0.55;
-      const py = my * 0.45;
+      // Strong parallax — glow follows mouse more
+      const px = mx * 0.9;
+      const py = my * 0.85;
 
-      // Blob positions (always separated)
-      let b1x = width * (0.28 + drift1X + px * 0.28);
-      let b1y = height * (0.42 + drift1Y + py * 0.22);
+      // Blob positions (follow cursor more)
+      let b1x = width * (0.28 + drift1X + px * 0.5);
+      let b1y = height * (0.42 + drift1Y + py * 0.45);
 
-      let b2x = width * (0.72 + drift2X - px * 0.28);
-      let b2y = height * (0.58 + drift2Y - py * 0.22);
+      let b2x = width * (0.72 + drift2X - px * 0.5);
+      let b2y = height * (0.58 + drift2Y - py * 0.45);
 
       // Distance and merge strength
       const dx = b2x - b1x;

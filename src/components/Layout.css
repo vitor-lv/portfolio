@@ -156,8 +156,15 @@
 
 .nav a {
   color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
+.nav a:hover,
 .nav a.active {
   color: #7EC4E1;
+}
+
+.nav a:hover {
+  transform: translateY(-1.5px);
 }
