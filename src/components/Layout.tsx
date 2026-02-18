@@ -1,11 +1,35 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Outlet, NavLink } from "react-router-dom";
+import { useColorScheme } from "../contexts/ColorSchemeContext";
+import CustomCursor from "./CustomCursor";
 import "./Layout.css";
+
+const SCROLL_THRESHOLD = 40;
+const TOP_THRESHOLD = 24;
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const { cyclePalette } = useColorScheme();
 
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y <= TOP_THRESHOLD) {
+        setHeaderVisible(true);
+      } else if (y > lastScrollY.current && y > SCROLL_THRESHOLD) {
+        setHeaderVisible(false);
+      } else if (y < lastScrollY.current) {
+        setHeaderVisible(true);
+      }
+      lastScrollY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const navLinks = (
     <>
@@ -19,9 +43,10 @@ export default function Layout() {
 
   return (
     <div className="page">
-      <header className="header">
+      <CustomCursor />
+      <header className={`header ${headerVisible || menuOpen ? "" : "header--hidden"}`}>
         <div className="headerInner">
-          <NavLink to="/" className="logoLink" aria-label="Home">
+          <NavLink to="/" className="logoLink" aria-label="Home" onClick={cyclePalette}>
             <img src="/logo-header.png" alt="Vitor LV" className="logoImg" />
           </NavLink>
 
@@ -52,6 +77,8 @@ export default function Layout() {
           </ul>
         </nav>
       </header>
+
+      <div className="headerSpacer" aria-hidden />
 
       {menuOpen && (
         <button

@@ -1,0 +1,29 @@
+.customCursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 50%;
+  /* Liquid glass */
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 20px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.2s ease;
+}
+
+/* Hide default cursor when custom cursor is active */
+body.customCursorActive,
+body.customCursorActive * {
+  cursor: none !important;
+}
+
+/* But keep pointer for interactive elements (optional - they still work, just no visible cursor) */
+body.customCursorActive a,
+body.customCursorActive button {
+  cursor: none !important;
+}

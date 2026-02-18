@@ -1,7 +1,11 @@
 import { useEffect, useRef } from "react";
+import { useColorScheme, hexToRgb } from "./contexts/ColorSchemeContext";
 
 export default function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { currentPalette } = useColorScheme();
+  const glowRgbRef = useRef(hexToRgb(currentPalette.glow));
+  glowRgbRef.current = hexToRgb(currentPalette.glow);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -149,11 +153,12 @@ export default function InteractiveBackground() {
       glowCtx.filter = "blur(60px)";
       glowCtx.globalCompositeOperation = "screen";
 
+      const glowRgb = glowRgbRef.current;
       // Glow blob (left)
-      drawGlow(b1x, b1y, r1, "rgba(20, 95, 136, ", 0.52);
+      drawGlow(b1x, b1y, r1, `rgba(${glowRgb}, `, 0.52);
 
       // Glow blob (right)
-      drawGlow(b2x, b2y, r2, "rgba(20, 95, 136, ", 0.48);
+      drawGlow(b2x, b2y, r2, `rgba(${glowRgb}, `, 0.48);
 
       // Bridge metaball (only when close)
       if (merge > 0.05) {
@@ -172,7 +177,7 @@ export default function InteractiveBackground() {
           midX,
           midY,
           width * (0.32 + merge * 0.12),
-          "rgba(20, 95, 136, ",
+          `rgba(${glowRgb}, `,
           0.06 + merge * 0.08
         );
 
@@ -180,7 +185,7 @@ export default function InteractiveBackground() {
           midX,
           midY,
           width * (0.32 + merge * 0.12),
-          "rgba(20, 95, 136, ",
+          `rgba(${glowRgb}, `,
           0.05 + merge * 0.07
         );
       }

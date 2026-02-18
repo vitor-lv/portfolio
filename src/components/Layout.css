@@ -111,7 +111,7 @@
   }
 
   .navMobileList a.active {
-    color: #7EC4E1;
+    color: var(--color-accent);
   }
 }
 
@@ -162,7 +162,7 @@
 
 .nav a:hover,
 .nav a.active {
-  color: #7EC4E1;
+  color: var(--color-accent);
 }
 
 .nav a:hover {
