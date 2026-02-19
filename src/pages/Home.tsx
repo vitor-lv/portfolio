@@ -7,11 +7,32 @@ const SCALE_END = 0.62;
 const FADE_END = 0.5;
 const TRANSLATE_Y = 48;
 
+const HERO_LINE2_SENTENCES = [
+  "Over a decade designing and scaling financial experiences",
+  "Designed with obsession for craft",
+  "Built with AI, refined by human design",
+  "Powered by AI — otherwise this would’ve taken 829839 hours",
+];
+
 export default function Home() {
   const heroInnerRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLAnchorElement>(null);
   const workSectionRef = useRef<HTMLElement>(null);
   const [workVisible, setWorkVisible] = useState(false);
+  const [line2Index, setLine2Index] = useState(0);
+
+  const line2Sentence = HERO_LINE2_SENTENCES[line2Index];
+  const line2Delays = useRef<number[]>([]);
+  if (line2Delays.current.length !== line2Sentence.length) {
+    line2Delays.current = Array.from({ length: line2Sentence.length }, () => Math.random() * 0.55);
+  }
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setLine2Index((i) => (i + 1) % HERO_LINE2_SENTENCES.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     const work = workSectionRef.current;
@@ -58,8 +79,16 @@ export default function Home() {
           <div className="heroRefText">
             <p className="heroRefLine1">Hello, I'm Vitor LV</p>
             <h1 className="heroRefTitle">Lead Designer</h1>
-            <p className="heroRefLine2">
-            Over a decade designing and scaling fintech experiences
+            <p className="heroRefLine2" key={line2Index} aria-live="polite">
+              {line2Sentence.split("").map((char, i) => (
+                <span
+                  key={`${line2Index}-${i}`}
+                  className="heroRefLine2Char"
+                  style={{ animationDelay: `${line2Delays.current[i]}s` }}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
             </p>
             <div className="heroRefLogos">
               <img src="/logos-companies.svg" alt="Companies" className="heroRefLogosImg" />
