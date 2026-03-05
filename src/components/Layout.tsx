@@ -7,13 +7,28 @@ import "./Layout.css";
 const SCROLL_THRESHOLD = 40;
 const TOP_THRESHOLD = 24;
 
+const LockIcon = () => (
+  <svg className="navLoginIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </svg>
+);
+
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
+  const [loginUnlocked, setLoginUnlocked] = useState(false);
+  const loginClickCount = useRef(0);
   const lastScrollY = useRef(0);
   const { cyclePalette } = useColorScheme();
 
   const closeMenu = () => setMenuOpen(false);
+
+  const handleLoginClick = () => {
+    if (loginUnlocked) return;
+    loginClickCount.current += 1;
+    if (loginClickCount.current >= 3) setLoginUnlocked(true);
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -36,7 +51,6 @@ export default function Layout() {
       <NavLink to="/" end onClick={closeMenu}>Home</NavLink>
       <a href="/#work" onClick={closeMenu}>Work</a>
       <a href="https://www.linkedin.com/in/vitor-lv-4536a06b/" target="_blank" rel="noreferrer" onClick={closeMenu}>Linkedin</a>
-      <a href="https://www.instagram.com/vitor.lvv/" target="_blank" rel="noreferrer" onClick={closeMenu}>Instagram</a>
       <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
     </>
   );
@@ -50,9 +64,28 @@ export default function Layout() {
             <img src="/logo-header.png" alt="Vitor LV" className="logoImg" />
           </NavLink>
 
-          <nav className="nav navSerif" aria-label="Main">
+          <nav className="nav navSerif navCenter" aria-label="Main">
             {navLinks}
           </nav>
+
+          <div className="navLoginWrapper">
+            {loginUnlocked ? (
+              <NavLink to="/cases-admin" className="navLogin navLoginUnlocked" onClick={closeMenu}>
+                <LockIcon />
+                <span>Login</span>
+              </NavLink>
+            ) : (
+              <button
+                type="button"
+                className="navLogin navLoginLocked"
+                onClick={handleLoginClick}
+                aria-label="Login"
+              >
+                <LockIcon />
+                <span>Login</span>
+              </button>
+            )}
+          </div>
 
           <button
             type="button"
@@ -72,8 +105,20 @@ export default function Layout() {
             <li><NavLink to="/" end onClick={closeMenu}>Home</NavLink></li>
             <li><a href="/#work" onClick={closeMenu}>Work</a></li>
             <li><a href="https://linkedin.com" target="_blank" rel="noreferrer" onClick={closeMenu}>Linkedin</a></li>
-            <li><a href="https://instagram.com" target="_blank" rel="noreferrer" onClick={closeMenu}>Instagram</a></li>
             <li><NavLink to="/contact" onClick={closeMenu}>Contact</NavLink></li>
+            <li className="navMobileLogin">
+              {loginUnlocked ? (
+                <NavLink to="/cases-admin" onClick={closeMenu} className="navLoginUnlocked">
+                  <LockIcon />
+                  <span>Login</span>
+                </NavLink>
+              ) : (
+                <button type="button" className="navLoginLocked" onClick={handleLoginClick} aria-label="Login (click 3 times to unlock)">
+                  <LockIcon />
+                  <span>Login</span>
+                </button>
+              )}
+            </li>
           </ul>
         </nav>
       </header>

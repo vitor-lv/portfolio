@@ -1,0 +1,132 @@
+.caseViewGate,
+.caseView {
+  min-height: 60vh;
+  padding: 32px 24px;
+}
+
+.caseViewGate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caseViewGateInner {
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+}
+
+.caseViewGateInner h1 {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+}
+
+.caseViewGateInner p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.caseViewGateInner form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.caseViewInput {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+.caseViewInput:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.caseViewError {
+  color: #e57373;
+  font-size: 13px;
+  margin: 0 !important;
+}
+
+.caseViewBtn {
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.caseViewBack,
+.caseViewBackLink {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.caseViewBack:hover,
+.caseViewBackLink:hover {
+  color: var(--text);
+}
+
+/* Project content */
+.caseView {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.caseViewHeader {
+  margin-bottom: 32px;
+}
+
+.caseViewArticle {
+  padding-bottom: 48px;
+}
+
+.caseViewYear {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.caseViewTitle {
+  margin: 0 0 16px;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.caseViewDescription {
+  margin: 0 0 20px;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.caseViewTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.caseViewContent {
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.caseViewContent p {
+  margin: 0;
+}

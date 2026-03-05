@@ -137,7 +137,7 @@
   }
 }
 
-/* Nav: Inter, spaced, purple active (desktop) */
+/* Nav desktop */
 @media (min-width: 600px) {
   .navSerif {
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
@@ -167,4 +167,42 @@
 
 .nav a:hover {
   transform: translateY(-1.5px);
+}
+
+/* Login (right): locked = 3 clicks to unlock */
+.navMobileLogin {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navMobileLogin .navLoginLocked,
+.navMobileLogin .navLoginUnlocked {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 0;
+  font-size: 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.navMobileLogin .navLoginLocked {
+  opacity: 0.5;
+}
+
+.navMobileLogin .navLoginUnlocked {
+  opacity: 1;
+}
+
+.navMobileLogin .navLoginUnlocked.active {
+  color: var(--color-accent);
+}
+
+.navMobileLogin .navLoginIcon {
+  width: 16px;
+  height: 16px;
 }

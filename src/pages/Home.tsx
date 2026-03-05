@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { CASES } from "../data/cases";
+import { Link } from "react-router-dom";
+import { loadCasesForSite } from "../data/casesStorage";
 import InteractiveBackground from "../InteractiveBackground";
 
 const SCROLL_RANGE = 680;
@@ -20,6 +21,12 @@ export default function Home() {
   const workSectionRef = useRef<HTMLElement>(null);
   const [workVisible, setWorkVisible] = useState(false);
   const [line2Index, setLine2Index] = useState(0);
+  const [cases, setCases] = useState(loadCasesForSite);
+  useEffect(() => {
+    const onFocus = () => setCases(loadCasesForSite());
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
 
   const line2Sentence = HERO_LINE2_SENTENCES[line2Index];
   const line2Delays = useRef<number[]>([]);
@@ -122,28 +129,39 @@ export default function Home() {
         </div>
 
         <div className="grid">
-          {CASES.map((item) => (
-            <article key={item.title} className="card">
-              <div className="cardTop">
-                <span className="year">{item.year}</span>
-              </div>
-
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-
-              <div className="tags">
-                {item.tags.map((tag) => (
-                  <span key={tag} className="tag">
-                    {tag}
+          {cases.map((item) => {
+            const isAccountOpening = item.title === "Account Opening Experience";
+            const cardContent = (
+              <>
+                <div className="cardTop">
+                  <span className="year">{item.year}</span>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <div className="tags">
+                  {item.tags.map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="cardFooter">
+                  <span className="link">
+                    View case →
                   </span>
-                ))}
-              </div>
-
-              <div className="cardFooter">
-                <span className="link">View case →</span>
-              </div>
-            </article>
-          ))}
+                </div>
+              </>
+            );
+            return isAccountOpening ? (
+              <Link key={item.title} to="/case/account-opening-experience" className="card cardLink">
+                {cardContent}
+              </Link>
+            ) : (
+              <article key={item.title} className="card">
+                {cardContent}
+              </article>
+            );
+          })}
         </div>
       </section>
     </>
