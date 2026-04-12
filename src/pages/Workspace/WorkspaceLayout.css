@@ -1,0 +1,262 @@
+/* ── Layout ─────────────────────────────────────── */
+.wsLayout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ── Sidebar ─────────────────────────────────────── */
+.wsSidebar {
+  width: 200px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: var(--bg);
+  z-index: 50;
+  transition: transform 0.25s ease;
+}
+
+.wsSidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 24px;
+}
+
+.wsSidebarLogo {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.wsSidebarClose {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.wsSidebarNav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 10px;
+}
+
+.wsSidebarLink {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.wsSidebarLink:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.wsSidebarLink--active {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.wsSidebarLogout {
+  margin: 12px 10px 0;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.wsSidebarLogout:hover {
+  color: var(--text);
+}
+
+/* ── Main area ─────────────────────────────────── */
+.wsMain {
+  flex: 1;
+  margin-left: 200px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Topbar (mobile only) ────────────────────── */
+.wsTopbar {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.wsMenuBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.wsMenuBtn span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.wsTopbarLogo {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  flex: 1;
+}
+
+.wsTopbarLogout {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.wsContent {
+  flex: 1;
+  padding: 36px 40px;
+  max-width: 860px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Overlay ─────────────────────────────────── */
+.wsOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 49;
+  border: none;
+  cursor: pointer;
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 768px) {
+  .wsSidebar {
+    transform: translateX(-100%);
+    width: 240px;
+    z-index: 60;
+  }
+
+  .wsSidebarOpen {
+    transform: translateX(0);
+  }
+
+  .wsSidebarClose {
+    display: block;
+  }
+
+  .wsMain {
+    margin-left: 0;
+  }
+
+  .wsTopbar {
+    display: flex;
+  }
+
+  .wsContent {
+    padding: 24px 20px;
+  }
+}
+
+/* ── Shared badge classes ────────────────────── */
+.wsBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 999px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.wsBadge--green  { background: #EAF3DE; color: #3B6D11; }
+.wsBadge--amber  { background: #FAEEDA; color: #854F0B; }
+.wsBadge--red    { background: #FCEBEB; color: #A32D2D; }
+.wsBadge--blue   { background: #E6F1FB; color: #185FA5; }
+.wsBadge--purple { background: #EEEDFE; color: #3C3489; }
+.wsBadge--teal   { background: #E1F5EE; color: #0F6E56; }
+
+/* ── Shared card ─────────────────────────────── */
+.wsCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* ── Page header pattern ─────────────────────── */
+.wsPageHeader {
+  margin-bottom: 28px;
+}
+
+.wsPageTitle {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+}
+
+.wsPageSubtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── Section heading ─────────────────────────── */
+.wsSectionTitle {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
+/* ── Divider ─────────────────────────────────── */
+.wsDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}

@@ -1,0 +1,127 @@
+.wsSemanaPage {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Form ──────────────────────────────────── */
+.wsSemanaForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wsSemanaQuestion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wsSemanaQuestionLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wsSemanaQuestionText {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.wsSemanaTextarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.15s ease;
+  line-height: 1.55;
+}
+
+.wsSemanaTextarea:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.wsSemanaTextarea::placeholder {
+  color: var(--muted);
+}
+
+.wsSemanaTextarea:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+
+/* ── Error ─────────────────────────────────── */
+.wsSemanaError {
+  margin: 0;
+  font-size: 13px;
+  color: #e07070;
+  padding: 10px 14px;
+  background: rgba(163, 45, 45, 0.1);
+  border: 1px solid rgba(163, 45, 45, 0.3);
+  border-radius: 8px;
+}
+
+/* ── Button ────────────────────────────────── */
+.wsSemanaBtn {
+  align-self: flex-start;
+  background: var(--text);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.wsSemanaBtn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.wsSemanaBtn:disabled {
+  cursor: default;
+}
+
+.wsSemanaBtn--saved {
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* ── Analysis card ─────────────────────────── */
+.wsSemanaAnalysis {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wsSemanaAnalysisLabel {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.wsSemanaAnalysisText {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}

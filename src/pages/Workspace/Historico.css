@@ -1,0 +1,148 @@
+.wsHistorico {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Empty state ───────────────────────────── */
+.wsHistEmpty {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── List ──────────────────────────────────── */
+.wsHistList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wsHistCard {
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.wsHistCard:hover {
+  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.wsHistCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wsHistCardDate {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.wsHistCardPreview {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Detail view ───────────────────────────── */
+.wsHistDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.wsHistBackBtn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: color 0.12s ease;
+}
+
+.wsHistBackBtn:hover {
+  color: var(--text);
+}
+
+.wsHistDetailBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wsHistDetailQuestion {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wsHistDetailLabel {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.wsHistDetailAnswer {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.wsHistEmpty {
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* ── Analysis in detail ────────────────────── */
+.wsHistAnalysis {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.wsHistAnalysisLabel {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.wsHistAnalysisText {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}

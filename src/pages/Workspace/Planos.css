@@ -1,0 +1,129 @@
+.wsPlanos {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.wsPlanosSection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── PDI Grid ──────────────────────────────── */
+.wsPdiGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 560px) {
+  .wsPdiGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wsPdiCardLabel {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.wsPdiTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wsPdiCardText {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.wsPdiCardText--red {
+  color: #e07070;
+}
+
+/* ── Chegada ───────────────────────────────── */
+.wsChegadaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wsChegadaHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wsChegadaWeek {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.wsChegadaList {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wsChegadaList li {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── 90 dias table ─────────────────────────── */
+.ws90Table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ws90Row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.ws90RowMain {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ws90RowTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.ws90RowComo {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.ws90RowWhen {
+  flex-shrink: 0;
+  padding-top: 2px;
+}

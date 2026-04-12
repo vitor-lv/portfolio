@@ -1,0 +1,83 @@
+.wsLogin {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 24px;
+}
+
+.wsLoginCard {
+  width: 100%;
+  max-width: 360px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wsLoginTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.4px;
+}
+
+.wsLoginField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wsLoginLabel {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.wsLoginInput {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.wsLoginInput:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.wsLoginInput--error {
+  border-color: #A32D2D;
+}
+
+.wsLoginError {
+  margin: 2px 0 0 0;
+  font-size: 12px;
+  color: #e07070;
+}
+
+.wsLoginBtn {
+  background: var(--text);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.wsLoginBtn:hover {
+  opacity: 0.85;
+}
