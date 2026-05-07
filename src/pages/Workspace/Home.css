@@ -120,14 +120,29 @@
   border-color: #3B6D11;
 }
 
-/* ── Tasks ─────────────────────────────────── */
-.wsTaskSection {
+/* ── Notes ─────────────────────────────────── */
+.wsNotesSection {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
 }
 
-.wsTaskList {
+.wsNotesGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wsNotesGroupDate {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wsNoteList {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -136,28 +151,28 @@
   gap: 1px;
 }
 
-.wsTaskEmpty {
+.wsNoteEmpty {
   font-size: 13px;
   color: var(--muted);
-  padding: 8px 0;
+  padding: 6px 0;
 }
 
-.wsTaskItem {
+.wsNoteItem {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
+  padding: 7px 10px;
   border-radius: 8px;
   border: 1px solid transparent;
   transition: background 0.12s ease, border-color 0.12s ease;
 }
 
-.wsTaskItem:hover {
+.wsNoteItem:hover {
   background: var(--surface);
   border-color: var(--border);
 }
 
-.wsTaskCheck {
+.wsNoteCheck {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -166,7 +181,7 @@
   min-width: 0;
 }
 
-.wsTaskCheck input[type="checkbox"] {
+.wsNoteCheck input[type="checkbox"] {
   width: 14px;
   height: 14px;
   cursor: pointer;
@@ -174,18 +189,35 @@
   flex-shrink: 0;
 }
 
-.wsTaskText {
+.wsNoteText {
   font-size: 14px;
   color: var(--text);
   line-height: 1.4;
+  cursor: text;
+  user-select: text;
 }
 
-.wsTaskText--done {
+.wsNoteText--done {
   text-decoration: line-through;
   color: var(--muted);
 }
 
-.wsTaskDelete {
+.wsNoteEditInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  padding: 1px 0;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  min-width: 0;
+  width: 100%;
+}
+
+.wsNoteDelete {
   background: none;
   border: none;
   color: var(--muted);
@@ -197,22 +229,22 @@
   flex-shrink: 0;
 }
 
-.wsTaskItem:hover .wsTaskDelete {
+.wsNoteItem:hover .wsNoteDelete {
   opacity: 1;
 }
 
-.wsTaskDelete:hover {
+.wsNoteDelete:hover {
   color: var(--text);
 }
 
-/* ── Add form ───────────────────────────────── */
-.wsTaskAddForm {
+/* ── Note add form ─────────────────────────── */
+.wsNoteAddForm {
   display: flex;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
-.wsTaskAddInput {
+.wsNoteAddInput {
   flex: 1;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -226,28 +258,29 @@
   min-width: 0;
 }
 
-.wsTaskAddInput:focus {
+.wsNoteAddInput:focus {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-.wsTaskAddInput::placeholder {
+.wsNoteAddInput::placeholder {
   color: var(--muted);
 }
 
-.wsTaskAddBtn {
+.wsNoteAddBtn {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 9px 16px;
-  font-size: 13px;
-  color: var(--text);
+  padding: 9px 14px;
+  font-size: 16px;
+  color: var(--muted);
   cursor: pointer;
   font-family: inherit;
-  white-space: nowrap;
-  transition: background 0.12s ease;
+  line-height: 1;
+  transition: background 0.12s ease, color 0.12s ease;
   flex-shrink: 0;
 }
 
-.wsTaskAddBtn:hover {
+.wsNoteAddBtn:hover {
   background: var(--surface-hover);
+  color: var(--text);
 }

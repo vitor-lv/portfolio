@@ -1,10 +1,10 @@
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, useEffect, useRef, type FormEvent, type KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
-interface Task {
+interface Note {
   id: string;
-  week_id: string;
+  date: string; // YYYY-MM-DD
   text: string;
   done: boolean;
 }
@@ -29,6 +29,10 @@ function getWeekId(date = new Date()): string {
   return d.toISOString().split("T")[0];
 }
 
+function getTodayId(): string {
+  return new Date().toISOString().split("T")[0];
+}
+
 function formatDatePtBr(date = new Date()): string {
   return date.toLocaleDateString("pt-BR", {
     weekday: "long",
@@ -38,40 +42,88 @@ function formatDatePtBr(date = new Date()): string {
   });
 }
 
+function formatGroupDate(dateStr: string): string {
+  const today = getTodayId();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yId = yesterday.toISOString().split("T")[0];
+
+  if (dateStr === today) return "Hoje";
+  if (dateStr === yId) return "Ontem";
+
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+}
+
+function migrateNotes(raw: unknown[]): Note[] {
+  return raw.map((item: unknown) => {
+    const t = item as Record<string, unknown>;
+    if (t.date) return t as unknown as Note;
+    // legacy: had week_id, convert to today
+    return { id: t.id as string, date: getTodayId(), text: t.text as string, done: t.done as boolean };
+  });
+}
+
 export default function WSHome() {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
   const [rituals, setRituals] = useState<Ritual[]>([]);
-  const [newTask, setNewTask] = useState("");
+  const [newNote, setNewNote] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
+  const editRef = useRef<HTMLInputElement>(null);
 
-  const currentWeekId = getWeekId();
+  const todayId = getTodayId();
 
   useEffect(() => {
     try {
-      setTasks(JSON.parse(localStorage.getItem("lv:tasks") || "[]"));
+      const raw = JSON.parse(localStorage.getItem("lv:tasks") || "[]");
+      setNotes(migrateNotes(raw));
       setRituals(JSON.parse(localStorage.getItem("lv:rituals") || "[]"));
     } catch { /* ignore */ }
   }, []);
 
-  function saveTasks(updated: Task[]) {
-    setTasks(updated);
+  useEffect(() => {
+    if (editingId && editRef.current) editRef.current.focus();
+  }, [editingId]);
+
+  function saveNotes(updated: Note[]) {
+    setNotes(updated);
     localStorage.setItem("lv:tasks", JSON.stringify(updated));
   }
 
-  function toggleTask(id: string) {
-    saveTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+  function toggleNote(id: string) {
+    saveNotes(notes.map(n => n.id === id ? { ...n, done: !n.done } : n));
   }
 
-  function deleteTask(id: string) {
-    saveTasks(tasks.filter(t => t.id !== id));
+  function deleteNote(id: string) {
+    saveNotes(notes.filter(n => n.id !== id));
+    if (editingId === id) setEditingId(null);
   }
 
-  function addTask(e: FormEvent) {
+  function addNote(e: FormEvent) {
     e.preventDefault();
-    const text = newTask.trim();
+    const text = newNote.trim();
     if (!text) return;
-    saveTasks([...tasks, { id: Date.now().toString(), week_id: currentWeekId, text, done: false }]);
-    setNewTask("");
+    saveNotes([...notes, { id: Date.now().toString(), date: todayId, text, done: false }]);
+    setNewNote("");
+  }
+
+  function startEdit(note: Note) {
+    setEditingId(note.id);
+    setEditText(note.text);
+  }
+
+  function commitEdit(id: string) {
+    const text = editText.trim();
+    if (text) saveNotes(notes.map(n => n.id === id ? { ...n, text } : n));
+    setEditingId(null);
+  }
+
+  function handleEditKey(e: KeyboardEvent, id: string) {
+    if (e.key === "Enter") commitEdit(id);
+    if (e.key === "Escape") setEditingId(null);
   }
 
   function getCurrentStreak(): number {
@@ -99,9 +151,19 @@ export default function WSHome() {
     });
   }
 
-  const weekTasks = tasks.filter(t => t.week_id === currentWeekId);
-  const doneTasks = weekTasks.filter(t => t.done);
-  const hasRitualThisWeek = rituals.some(r => r.week_id === currentWeekId);
+  // Group notes by date, sorted newest first
+  const notesByDate = notes.reduce<Record<string, Note[]>>((acc, n) => {
+    (acc[n.date] ??= []).push(n);
+    return acc;
+  }, {});
+  const sortedDates = Object.keys(notesByDate).sort((a, b) => b.localeCompare(a));
+  // Ensure today always appears first
+  if (!notesByDate[todayId]) sortedDates.unshift(todayId);
+
+  const todayNotes = notesByDate[todayId] ?? [];
+  const todayDone = todayNotes.filter(n => n.done).length;
+
+  const hasRitualThisWeek = rituals.some(r => r.week_id === getWeekId());
   const streak = getCurrentStreak();
   const last8 = getLast8Weeks();
 
@@ -131,8 +193,8 @@ export default function WSHome() {
       {/* Metrics */}
       <div className="wsMetricGrid">
         <div className="wsMetricCard">
-          <span className="wsMetricValue">{doneTasks.length}/{weekTasks.length}</span>
-          <span className="wsMetricLabel">Tarefas esta semana</span>
+          <span className="wsMetricValue">{todayDone}/{todayNotes.length}</span>
+          <span className="wsMetricLabel">Notas hoje</span>
         </div>
         <div className="wsMetricCard">
           <span className="wsMetricValue">{rituals.length}</span>
@@ -158,45 +220,71 @@ export default function WSHome() {
         </div>
       </div>
 
-      {/* Tasks */}
-      <section className="wsTaskSection">
-        <h2 className="wsSectionTitle">Tarefas da semana</h2>
-        <ul className="wsTaskList">
-          {weekTasks.length === 0 && (
-            <li className="wsTaskEmpty">Nenhuma tarefa ainda.</li>
-          )}
-          {weekTasks.map(task => (
-            <li key={task.id} className="wsTaskItem">
-              <label className="wsTaskCheck">
-                <input
-                  type="checkbox"
-                  checked={task.done}
-                  onChange={() => toggleTask(task.id)}
-                />
-                <span className={`wsTaskText${task.done ? " wsTaskText--done" : ""}`}>
-                  {task.text}
-                </span>
-              </label>
-              <button
-                className="wsTaskDelete"
-                onClick={() => deleteTask(task.id)}
-                aria-label="Remover tarefa"
-              >
-                ✕
-              </button>
-            </li>
-          ))}
-        </ul>
-        <form className="wsTaskAddForm" onSubmit={addTask}>
-          <input
-            className="wsTaskAddInput"
-            type="text"
-            placeholder="Nova tarefa..."
-            value={newTask}
-            onChange={e => setNewTask(e.target.value)}
-          />
-          <button type="submit" className="wsTaskAddBtn">Adicionar</button>
-        </form>
+      {/* Notes */}
+      <section className="wsNotesSection">
+        <h2 className="wsSectionTitle">Notas</h2>
+
+        {sortedDates.map(date => {
+          const dayNotes = notesByDate[date] ?? [];
+          const isToday = date === todayId;
+          return (
+            <div key={date} className="wsNotesGroup">
+              <p className="wsNotesGroupDate">{formatGroupDate(date)}</p>
+              <ul className="wsNoteList">
+                {dayNotes.length === 0 && isToday && (
+                  <li className="wsNoteEmpty">Nenhuma nota ainda.</li>
+                )}
+                {dayNotes.map(note => (
+                  <li key={note.id} className="wsNoteItem">
+                    <label className="wsNoteCheck">
+                      <input
+                        type="checkbox"
+                        checked={note.done}
+                        onChange={() => toggleNote(note.id)}
+                      />
+                      {editingId === note.id ? (
+                        <input
+                          ref={editRef}
+                          className="wsNoteEditInput"
+                          value={editText}
+                          onChange={e => setEditText(e.target.value)}
+                          onBlur={() => commitEdit(note.id)}
+                          onKeyDown={e => handleEditKey(e, note.id)}
+                        />
+                      ) : (
+                        <span
+                          className={`wsNoteText${note.done ? " wsNoteText--done" : ""}`}
+                          onDoubleClick={() => !note.done && startEdit(note)}
+                        >
+                          {note.text}
+                        </span>
+                      )}
+                    </label>
+                    <button
+                      className="wsNoteDelete"
+                      onClick={() => deleteNote(note.id)}
+                      aria-label="Remover nota"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              {isToday && (
+                <form className="wsNoteAddForm" onSubmit={addNote}>
+                  <input
+                    className="wsNoteAddInput"
+                    type="text"
+                    placeholder="Nova nota..."
+                    value={newNote}
+                    onChange={e => setNewNote(e.target.value)}
+                  />
+                  <button type="submit" className="wsNoteAddBtn">+</button>
+                </form>
+              )}
+            </div>
+          );
+        })}
       </section>
     </div>
   );
