@@ -59,7 +59,10 @@ export default function WSHome() {
   }
 
   function toggleTask(id: string) {
-    saveTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+    const updated = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+    const pending = updated.filter(t => !t.done);
+    const done = updated.filter(t => t.done);
+    saveTasks([...pending, ...done]);
   }
 
   function deleteTask(id: string) {
