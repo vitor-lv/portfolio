@@ -52,6 +52,14 @@
 --border: rgba(255,255,255,0.1)
 ```
 
+## Deploy
+1. Commitar todas as mudanças antes de deployar (`git add` + `git commit`)
+2. Fazer push pro GitHub (`git push origin main`)
+3. Deployar com `npx vercel --prod` (projeto `vite-react`, domínio `vitorlv.com`)
+
+> ⚠️ Nunca deployar sem commitar antes — o source real do site está no git,
+> e deploys sem commit deixam o código fora de sincronia com o que está no ar.
+
 ## Convenções
 - Dark theme, flat, sem gradientes, sem sombras
 - Border-radius: 8–12px em cards, 999px em badges/chips
