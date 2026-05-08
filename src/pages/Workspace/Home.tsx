@@ -162,7 +162,6 @@ export default function WSHome() {
   const last7       = getLast7Weeks();
   const allKrs      = okrs.flatMap(o => o.krs);
   const okrAvg      = allKrs.length ? Math.round(allKrs.reduce((s, k) => s + k.progress, 0) / allKrs.length) : 0;
-  const todayDOW    = ["D","S","T","Q","Q","S","S"][new Date().getDay()];
 
   /* Deep work proxy: rituals completed this "week" as hours */
   const recentRituals = rituals.slice(-7).length;
