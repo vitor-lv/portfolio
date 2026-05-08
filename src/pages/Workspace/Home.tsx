@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSpace } from "../../contexts/WorkspaceSpaceContext";
 import "./Home.css";
 
 const START_DATE = new Date("2026-05-07T00:00:00");
@@ -83,11 +84,16 @@ function usePomodoro() {
   };
 }
 
+interface ChegadaItem { id: string; week: 1 | 2; text: string; }
+
 export default function WSHome() {
   const navigate = useNavigate();
-  const [tasks,   setTasks]   = useState<Task[]>([]);
-  const [rituals, setRituals] = useState<Ritual[]>([]);
-  const [okrs,    setOkrs]    = useState<OKRObj[]>([]);
+  const { k } = useSpace();
+  const [tasks,        setTasks]        = useState<Task[]>([]);
+  const [rituals,      setRituals]      = useState<Ritual[]>([]);
+  const [okrs,         setOkrs]         = useState<OKRObj[]>([]);
+  const [chegadaItems, setChegadaItems] = useState<ChegadaItem[]>([]);
+  const [chegadaPct,   setChegadaPct]   = useState<Record<string, number>>({});
   const [newTask, setNewTask] = useState("");
   const [addOpen, setAddOpen] = useState(false);
   const [quoteIdx] = useState(() => Math.floor(Math.random() * QUOTES.length));
@@ -107,8 +113,10 @@ export default function WSHome() {
       setTasks(JSON.parse(localStorage.getItem("lv:tasks")   || "[]"));
       setRituals(JSON.parse(localStorage.getItem("lv:rituals") || "[]"));
       setOkrs(JSON.parse(localStorage.getItem("lv:okrs")     || "[]"));
+      setChegadaItems(JSON.parse(localStorage.getItem(k("lv:chegada_items")) || "[]"));
+      setChegadaPct(JSON.parse(localStorage.getItem(k("lv:chegada_pct")) || "{}"));
     } catch { /* ignore */ }
-  }, []);
+  }, [k]);
 
   function saveTasks(u: Task[]) {
     setTasks(u);
@@ -287,19 +295,22 @@ export default function WSHome() {
         {/* Strategy */}
         <div className="wsDashCard wsDashStrategy" onClick={() => navigate("/workspace/planos")}>
           <h3 className="wsDashStrategyTitle">Planos</h3>
-          <div className="wsDashStrategyWeek">Semana {weekNum}</div>
+          <div className="wsDashStrategyWeek">Chegada · 2 semanas</div>
           <ul className="wsDashStrategyList">
-            {weekTasks.slice(0, 3).map((task, i) => (
-              <li key={task.id} className={`wsDashStrategyItem${task.done ? " wsDashStrategyItem--done" : ""}`}>
-                <div className="wsDashStrategyChip">{task.done ? "✓" : `${i + 1}`}</div>
-                <span>{task.text}</span>
-                <span className="wsDashStrategyArrow">→</span>
-              </li>
-            ))}
-            {weekTasks.length === 0 && (
+            {chegadaItems.slice(0, 3).map((item, i) => {
+              const done = (chegadaPct[item.id] ?? 0) === 100;
+              return (
+                <li key={item.id} className={`wsDashStrategyItem${done ? " wsDashStrategyItem--done" : ""}`}>
+                  <div className="wsDashStrategyChip">{done ? "✓" : `${i + 1}`}</div>
+                  <span>{item.text}</span>
+                  <span className="wsDashStrategyArrow">→</span>
+                </li>
+              );
+            })}
+            {chegadaItems.length === 0 && (
               <li className="wsDashStrategyItem">
                 <div className="wsDashStrategyChip">+</div>
-                <span>Adicione tarefas para ver aqui</span>
+                <span>Adicione tarefas em Planos</span>
               </li>
             )}
           </ul>
