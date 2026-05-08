@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type FormEvent } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSpace } from "../../contexts/WorkspaceSpaceContext";
 import "./Home.css";
 
@@ -84,17 +84,13 @@ function usePomodoro() {
   };
 }
 
-interface ChegadaItem { id: string; week: 1 | 2; text: string; }
 
 export default function WSHome() {
   const navigate = useNavigate();
-  const location = useLocation();
   const { k } = useSpace();
   const [tasks,        setTasks]        = useState<Task[]>([]);
   const [rituals,      setRituals]      = useState<Ritual[]>([]);
   const [okrs,         setOkrs]         = useState<OKRObj[]>([]);
-  const [chegadaItems, setChegadaItems] = useState<ChegadaItem[]>([]);
-  const [chegadaPct,   setChegadaPct]   = useState<Record<string, number>>({});
   const [newTask, setNewTask] = useState("");
   const [addOpen, setAddOpen] = useState(false);
   const [quoteIdx] = useState(() => Math.floor(Math.random() * QUOTES.length));
@@ -111,22 +107,16 @@ export default function WSHome() {
 
   useEffect(() => {
     try {
-      setTasks(JSON.parse(localStorage.getItem("lv:tasks")   || "[]"));
-      setRituals(JSON.parse(localStorage.getItem("lv:rituals") || "[]"));
-      setOkrs(JSON.parse(localStorage.getItem("lv:okrs")     || "[]"));
+      setTasks(JSON.parse(localStorage.getItem(k("lv:tasks"))   || "[]"));
+      setRituals(JSON.parse(localStorage.getItem(k("lv:rituals")) || "[]"));
+      setOkrs(JSON.parse(localStorage.getItem(k("lv:okrs"))     || "[]"));
     } catch { /* ignore */ }
-  }, []);
+  }, [k]);
 
-  useEffect(() => {
-    try {
-      setChegadaItems(JSON.parse(localStorage.getItem(k("lv:chegada_items")) || "[]"));
-      setChegadaPct(JSON.parse(localStorage.getItem(k("lv:chegada_pct")) || "{}"));
-    } catch { /* ignore */ }
-  }, [k, location]);
 
   function saveTasks(u: Task[]) {
     setTasks(u);
-    localStorage.setItem("lv:tasks", JSON.stringify(u));
+    localStorage.setItem(k("lv:tasks"), JSON.stringify(u));
   }
   const toggleTask = (id: string) => saveTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
 
@@ -298,24 +288,23 @@ export default function WSHome() {
         </div>
 
         {/* Strategy */}
-        <div className="wsDashCard wsDashStrategy" onClick={() => navigate("/workspace/planos")}>
-          <h3 className="wsDashStrategyTitle">Planos</h3>
-          <div className="wsDashStrategyWeek">Chegada · 2 semanas</div>
+        <div className="wsDashCard wsDashStrategy" onClick={() => navigate("/workspace/okrs")}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
+            <h3 className="wsDashStrategyTitle">Strategy</h3>
+            <div className="wsDashStrategyWeek">Semana {Math.max(1, Math.ceil((Date.now() - START_DATE.getTime()) / (7 * 864e5) + 1))}</div>
+          </div>
           <ul className="wsDashStrategyList">
-            {chegadaItems.slice(0, 3).map((item, i) => {
-              const done = (chegadaPct[item.id] ?? 0) === 100;
-              return (
-                <li key={item.id} className={`wsDashStrategyItem${done ? " wsDashStrategyItem--done" : ""}`}>
-                  <div className="wsDashStrategyChip">{done ? "✓" : `${i + 1}`}</div>
-                  <span>{item.text}</span>
-                  <span className="wsDashStrategyArrow">→</span>
-                </li>
-              );
-            })}
-            {chegadaItems.length === 0 && (
+            {allKrs.slice(0, 3).map((kr) => (
+              <li key={kr.id} className="wsDashStrategyItem">
+                <div className="wsDashStrategyChip">{kr.progress}%</div>
+                <span>{kr.text}</span>
+                <span className="wsDashStrategyArrow">→</span>
+              </li>
+            ))}
+            {allKrs.length === 0 && (
               <li className="wsDashStrategyItem">
                 <div className="wsDashStrategyChip">+</div>
-                <span>Adicione tarefas em Planos</span>
+                <span>Adicione OKRs em Strategy</span>
               </li>
             )}
           </ul>
