@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSpace } from "../../contexts/WorkspaceSpaceContext";
 import "./Home.css";
 
@@ -88,6 +88,7 @@ interface ChegadaItem { id: string; week: 1 | 2; text: string; }
 
 export default function WSHome() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { k } = useSpace();
   const [tasks,        setTasks]        = useState<Task[]>([]);
   const [rituals,      setRituals]      = useState<Ritual[]>([]);
@@ -113,10 +114,15 @@ export default function WSHome() {
       setTasks(JSON.parse(localStorage.getItem("lv:tasks")   || "[]"));
       setRituals(JSON.parse(localStorage.getItem("lv:rituals") || "[]"));
       setOkrs(JSON.parse(localStorage.getItem("lv:okrs")     || "[]"));
+    } catch { /* ignore */ }
+  }, []);
+
+  useEffect(() => {
+    try {
       setChegadaItems(JSON.parse(localStorage.getItem(k("lv:chegada_items")) || "[]"));
       setChegadaPct(JSON.parse(localStorage.getItem(k("lv:chegada_pct")) || "{}"));
     } catch { /* ignore */ }
-  }, [k]);
+  }, [k, location]);
 
   function saveTasks(u: Task[]) {
     setTasks(u);
