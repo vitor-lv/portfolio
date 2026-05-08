@@ -102,7 +102,8 @@ export default function WSHome() {
     });
   }
 
-  const weekTasks = tasks.filter(t => t.week_id === currentWeekId);
+  const allWeekTasks = tasks.filter(t => t.week_id === currentWeekId);
+  const weekTasks = [...allWeekTasks.filter(t => !t.done), ...allWeekTasks.filter(t => t.done)];
   const doneTasks = weekTasks.filter(t => t.done);
   const hasRitualThisWeek = rituals.some(r => r.week_id === currentWeekId);
   const streak = getCurrentStreak();
