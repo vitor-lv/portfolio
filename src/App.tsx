@@ -15,6 +15,10 @@ import Semana from "./pages/Workspace/Semana";
 import Planos from "./pages/Workspace/Planos";
 import Benchmarks from "./pages/Workspace/Benchmarks";
 import Historico from "./pages/Workspace/Historico";
+import OKRs from "./pages/Workspace/OKRs";
+import Stakeholders from "./pages/Workspace/Stakeholders";
+import UmaUm from "./pages/Workspace/UmaUm";
+import Dados from "./pages/Workspace/Dados";
 
 export default function App() {
   return (
@@ -38,6 +42,10 @@ export default function App() {
               <Route path="planos" element={<Planos />} />
               <Route path="benchmarks" element={<Benchmarks />} />
               <Route path="historico" element={<Historico />} />
+              <Route path="okrs" element={<OKRs />} />
+              <Route path="stakeholders" element={<Stakeholders />} />
+              <Route path="um-a-um" element={<UmaUm />} />
+              <Route path="dados" element={<Dados />} />
             </Route>
           </Route>
         </Routes>
