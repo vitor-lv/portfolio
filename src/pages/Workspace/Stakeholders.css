@@ -1,0 +1,258 @@
+.wsStakeholders {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.wsStakeholderActions {
+  display: flex;
+  gap: 8px;
+}
+
+.wsStakeholderAddBtn {
+  background: var(--text);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.wsStakeholderAddBtn:hover {
+  opacity: 0.85;
+}
+
+/* ── Empty ──────────────────────────────────── */
+.wsStakeholderEmpty {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wsStakeholderEmpty p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.wsStakeholderEmptyHint {
+  font-size: 13px !important;
+  opacity: 0.7;
+}
+
+/* ── Grid ───────────────────────────────────── */
+.wsStakeholderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+/* ── Card ───────────────────────────────────── */
+.wsStakeholderCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+  border: none;
+  background: var(--surface);
+  transition: background 0.12s ease, border-color 0.12s ease;
+  font-family: inherit;
+}
+
+.wsStakeholderCard:hover {
+  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.wsStakeholderCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.wsStakeholderName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wsStakeholderPapel {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.wsStakeholderCardBottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.wsStakeholderNotasPrev {
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
+
+/* ── Overlay / Modal ────────────────────────── */
+.wsStakeholderOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.wsStakeholderModal {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.wsStakeholderModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wsStakeholderModalTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.wsStakeholderModalClose {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.12s ease;
+}
+
+.wsStakeholderModalClose:hover {
+  color: var(--text);
+}
+
+/* ── Form ───────────────────────────────────── */
+.wsStakeholderForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wsStakeholderRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.wsStakeholderLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wsStakeholderInput,
+.wsStakeholderSelect,
+.wsStakeholderTextarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.wsStakeholderInput:focus,
+.wsStakeholderSelect:focus,
+.wsStakeholderTextarea:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.wsStakeholderInput::placeholder,
+.wsStakeholderTextarea::placeholder {
+  color: var(--muted);
+}
+
+.wsStakeholderSelect {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+}
+
+.wsStakeholderSelect option {
+  background: #111;
+  color: var(--text);
+}
+
+.wsStakeholderTextarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.55;
+}
+
+/* ── Footer ─────────────────────────────────── */
+.wsStakeholderModalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.wsStakeholderDeleteBtn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  margin-right: auto;
+  padding: 0;
+  transition: color 0.12s ease;
+}
+
+.wsStakeholderDeleteBtn:hover {
+  color: #e07070;
+}
+

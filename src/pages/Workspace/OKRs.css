@@ -1,0 +1,215 @@
+.wsOKRs {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Objective card ─────────────────────────── */
+.wsOKRList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wsOKRObjective {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wsOKRObjectiveHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wsOKRObjectiveTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wsOKRObjectiveTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* ── Progress bar (objective) ───────────────── */
+.wsOKRProgressRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wsOKRProgressBar {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.wsOKRProgressFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.wsOKRProgressPct {
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 32px;
+  text-align: right;
+  transition: color 0.3s ease;
+}
+
+/* ── KR list ────────────────────────────────── */
+.wsOKRKRList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wsOKRKR {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wsOKRKRTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wsOKRKRText {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.wsOKREditBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.wsOKREditBtn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text);
+}
+
+/* ── KR progress bar ────────────────────────── */
+.wsOKRKRBar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.wsOKRKRFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+/* ── KR edit inline ─────────────────────────── */
+.wsOKRKREdit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 2px;
+}
+
+.wsOKRSliderLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.wsOKRSliderLabel strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.wsOKRSlider {
+  width: 100%;
+  accent-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.wsOKRNotasInput {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+  transition: border-color 0.15s ease;
+}
+
+.wsOKRNotasInput:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.wsOKRNotasInput::placeholder {
+  color: var(--muted);
+}
+
+.wsOKRKRNotas {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.7;
+  line-height: 1.45;
+  font-style: italic;
+}
+
+/* ── Footer ─────────────────────────────────── */
+.wsOKRFooter {
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.wsOKRResetBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: color 0.12s ease;
+}
+
+.wsOKRResetBtn:hover {
+  color: var(--text);
+}
+

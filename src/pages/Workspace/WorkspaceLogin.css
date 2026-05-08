@@ -3,8 +3,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  background: #000;
   padding: 24px;
+  font-family: 'Open Sans', system-ui, sans-serif;
+  --bg:      #000;
+  --surface: #0f0f10;
+  --surface-2: #141416;
+  --text:    #ededee;
+  --muted:   #8a8a90;
+  --muted-2: #56565c;
+  --border:  rgba(255,255,255,0.07);
+  --accent:  #b6f3a3;
 }
 
 .wsLoginCard {
@@ -12,8 +21,9 @@
   max-width: 360px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 22px;
   padding: 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -22,7 +32,7 @@
 .wsLoginTitle {
   margin: 0;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text);
   letter-spacing: -0.4px;
 }
@@ -34,45 +44,67 @@
 }
 
 .wsLoginLabel {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
-  font-weight: 400;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
 }
 
 .wsLoginInput {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 12px;
+  border-radius: 12px;
+  padding: 10px 14px;
   font-size: 14px;
   color: var(--text);
   font-family: inherit;
   outline: none;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .wsLoginInput:focus {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(182,243,163,.12);
 }
 
 .wsLoginInput--error {
-  border-color: #A32D2D;
+  border-color: #ff7a7a;
 }
+
+.wsLoginInput::placeholder { color: var(--muted-2); }
 
 .wsLoginError {
   margin: 2px 0 0 0;
   font-size: 12px;
-  color: #e07070;
+  color: #ff7a7a;
+}
+
+.wsLoginRemember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.wsLoginRemember input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 .wsLoginBtn {
-  background: var(--text);
-  color: #000;
+  background: var(--accent);
+  color: #0a0a0a;
   border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
+  border-radius: 12px;
+  padding: 11px 16px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   transition: opacity 0.15s ease;
@@ -81,3 +113,4 @@
 .wsLoginBtn:hover {
   opacity: 0.85;
 }
+

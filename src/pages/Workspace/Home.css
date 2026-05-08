@@ -1,253 +1,832 @@
-.wsHomePage {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+/* ── Design tokens ──────────────────────────────────── */
+.wsDash {
+  --ws-accent:      #b6f3a3;
+  --ws-accent-dim:  rgba(182, 243, 163, .18);
+  --ws-accent-glow: rgba(182, 243, 163, .18);
+  --ws-card:        #0f0f10;
+  --ws-card-2:      #141416;
+  --ws-ink:         #ededee;
+  --ws-ink-dim:     #8a8a90;
+  --ws-ink-ghost:   #56565c;
+  --ws-stroke:      rgba(255, 255, 255, .07);
+  --ws-stroke-2:    rgba(255, 255, 255, .12);
+  --ws-radius:      22px;
+
+  padding: 0 0 64px;
+  position: relative;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* ── Ritual banner ─────────────────────────── */
-.wsRitualBanner {
-  border-radius: 10px;
-  border: 1px solid;
-  padding: 14px 20px;
+/* ── Hero ───────────────────────────────────────────── */
+.wsDashHero {
+  position: relative;
+  border-radius: 24px;
+  padding: 28px 32px 32px;
+  background:
+    radial-gradient(600px 200px at 10% 0%, rgba(182,243,163,.09), transparent 70%),
+    linear-gradient(180deg, #0d0d0e 0%, #060606 100%);
+  border: 1px solid var(--ws-stroke);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.wsDashHero::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 20px; bottom: 20px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--ws-accent), transparent);
+  border-radius: 3px;
+}
+
+.wsDashHeroGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(900px 300px at 60% 50%, rgba(182,243,163,.04), transparent 60%);
+  pointer-events: none;
+}
+
+.wsDashHeroBar { margin-bottom: 12px; }
+
+.wsDashHello {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ws-ink);
+  letter-spacing: -.01em;
+}
+
+.wsDashWave {
+  display: inline-block;
+  animation: wsDashWave 2.4s ease-in-out infinite;
+  transform-origin: 70% 70%;
+}
+
+@keyframes wsDashWave {
+  0%,60%,100% { transform: rotate(0); }
+  10%,30%     { transform: rotate(14deg); }
+  20%         { transform: rotate(-8deg); }
+  40%         { transform: rotate(10deg); }
+  50%         { transform: rotate(-4deg); }
+}
+
+.wsDashQuote {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.8vw, 36px);
+  line-height: 1.2;
+  margin: 0 0 20px;
+  max-width: 820px;
+  color: #f0f0f0;
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+.wsDashQuoteAttr {
+  font-style: normal;
+  font-family: 'Inter', sans-serif;
+  color: var(--ws-accent);
+  font-size: .48em;
+  vertical-align: middle;
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+.wsDashHeroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  color: var(--ws-ink-dim);
+  font-size: 12px;
+}
+
+.wsDashPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--ws-stroke);
+  color: var(--ws-ink-dim);
+  letter-spacing: .02em;
+}
+
+.wsDashPill strong {
+  color: var(--ws-ink);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.wsDashPill--accent {
+  background: rgba(182,243,163,.1);
+  border-color: rgba(182,243,163,.25);
+  color: var(--ws-accent);
+}
+
+.wsDashPill--warn {
+  background: rgba(255,199,138,.08);
+  border-color: rgba(255,199,138,.2);
+  color: #ffc78a;
+}
+
+/* ── Tasks ──────────────────────────────────────────── */
+.wsDashTasksHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
+  margin: 0 2px 14px;
 }
 
-.wsRitualBanner--pending {
-  border-color: rgba(60, 52, 137, 0.6);
-  background: rgba(60, 52, 137, 0.08);
-}
-
-.wsRitualBanner--done {
-  border-color: rgba(59, 109, 17, 0.5);
-  background: rgba(59, 109, 17, 0.07);
-}
-
-.wsRitualBannerText {
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.4;
-}
-
-.wsRitualBannerBtn {
-  background: var(--text);
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  padding: 7px 14px;
+.wsDashTasksTitle {
   font-size: 13px;
   font-weight: 500;
+  color: var(--ws-ink-dim);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wsDashTasksTitle strong {
+  color: var(--ws-ink);
+  font-weight: 600;
+}
+
+.wsDashAddBtn {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--ws-accent);
+  color: #0a0a0a;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
   cursor: pointer;
+  box-shadow: 0 0 12px var(--ws-accent-glow);
+  transition: transform .15s ease;
+}
+
+.wsDashAddBtn:hover { transform: scale(1.1); }
+
+.wsDashAddForm {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.wsDashAddInput {
+  flex: 1;
+  padding: 9px 14px;
+  background: var(--ws-card);
+  border: 1px solid var(--ws-stroke-2);
+  border-radius: 12px;
+  color: var(--ws-ink);
+  font-size: 14px;
   font-family: inherit;
-  white-space: nowrap;
-  transition: opacity 0.15s ease;
+  outline: none;
+  transition: border-color .15s ease;
+}
+
+.wsDashAddInput:focus { border-color: var(--ws-accent); }
+
+.wsDashAddSubmit {
+  padding: 9px 18px;
+  background: var(--ws-accent);
+  color: #0a0a0a;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+
+.wsDashAddSubmit:hover { opacity: .85; }
+
+.wsDashTasksScroll {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 185px;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 2px 16px;
+  scroll-snap-type: x mandatory;
+  margin-bottom: 8px;
+}
+
+.wsDashTasksScroll::-webkit-scrollbar { display: none; }
+
+.wsDashTask {
+  scroll-snap-align: start;
+  background: var(--ws-card);
+  border: 1px solid var(--ws-stroke);
+  border-radius: 18px;
+  padding: 14px 15px 16px;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+  text-align: left;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  font-family: inherit;
+}
+
+.wsDashTask:hover {
+  transform: translateY(-2px);
+  border-color: var(--ws-stroke-2);
+  background: var(--ws-card-2);
+}
+
+.wsDashTask--done { opacity: .5; }
+
+.wsDashTask--done .wsDashTaskText {
+  text-decoration: line-through;
+  color: var(--ws-ink-dim);
+}
+
+.wsDashTask--empty {
+  border-style: dashed;
+  opacity: .6;
+}
+
+.wsDashTaskIco {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.04);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+
+.wsDashTaskText {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ws-ink);
+  font-weight: 500;
+  flex: 1;
+  letter-spacing: -.005em;
+}
+
+.wsDashTaskCheck {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ws-stroke-2);
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  color: transparent;
+  transition: all .15s ease;
+}
+
+.wsDashTask:hover .wsDashTaskCheck { border-color: var(--ws-accent); }
+
+.wsDashTaskCheck--done {
+  background: var(--ws-accent);
+  border-color: var(--ws-accent);
+  color: #0a0a0a;
+  font-weight: 700;
+}
+
+/* ── Grid ───────────────────────────────────────────── */
+.wsDashGrid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: 140px 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  min-height: 300px;
+}
+
+.wsDashCard {
+  background: var(--ws-card);
+  border: 1px solid var(--ws-stroke);
+  border-radius: var(--ws-radius);
+  position: relative;
+  overflow: hidden;
+  transition: border-color .25s ease, transform .25s ease;
+  cursor: pointer;
+}
+
+.wsDashCard:hover { border-color: var(--ws-stroke-2); }
+
+/* Timer */
+.wsDashTimer {
+  grid-row: 1; grid-column: 1;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+}
+
+.wsDashTimerRing {
+  position: absolute; inset: 8px;
+  border-radius: 16px;
+  background: conic-gradient(from 0deg, var(--ws-accent) 0 var(--p, 0%), transparent var(--p, 0%) 100%);
+  opacity: .12;
+  filter: blur(8px);
+}
+
+.wsDashTimerNum {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--ws-accent);
+  text-shadow: 0 0 18px var(--ws-accent-glow);
+  letter-spacing: -.02em;
+  z-index: 1;
+}
+
+.wsDashTimerCtrls {
+  display: flex;
+  gap: 12px;
+  font-size: 10px;
+  color: var(--ws-ink-dim);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  z-index: 1;
+}
+
+/* OKRs */
+.wsDashOKRs {
+  grid-row: 2; grid-column: 1;
+  background: linear-gradient(135deg, #8fd7cd 0%, #a8e4d0 100%);
+  color: #0a2420;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.wsDashOKRsLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+
+.wsDashOKRsNum {
+  margin: 4px 0 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.wsDashOKRsNum sub {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: .7;
+  vertical-align: super;
+  margin-left: 2px;
+}
+
+.wsDashOKRsBar {
+  height: 3px;
+  background: rgba(0,0,0,.15);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.wsDashOKRsBarFill {
+  height: 100%;
+  background: #0a2420;
+  border-radius: 3px;
+  transition: width .6s ease;
+}
+
+.wsDashOKRsCat {
+  position: absolute;
+  right: 6px; bottom: 2px;
+  width: 68px; height: 56px;
+  pointer-events: none;
+}
+
+/* Strategy */
+.wsDashStrategy {
+  grid-row: 1 / span 2; grid-column: 2;
+  background: linear-gradient(135deg, #b7f0a8 0%, #8de68a 55%, #7ed68a 100%);
+  color: #0a2410;
+  padding: 22px 24px;
+}
+
+.wsDashStrategyTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.wsDashStrategyWeek {
+  position: absolute;
+  top: 20px; right: 22px;
+  font-size: 11px;
+  color: rgba(10,36,16,.7);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wsDashStrategyWeek::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #0a2410;
+}
+
+.wsDashStrategyList {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wsDashStrategyItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  padding-right: 100px;
+}
+
+.wsDashStrategyChip {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(10,36,16,.08);
+  border: 1.5px solid rgba(10,36,16,.25);
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 700;
   flex-shrink: 0;
 }
 
-.wsRitualBannerBtn:hover {
-  opacity: 0.85;
+.wsDashStrategyItem--done .wsDashStrategyChip {
+  background: #0a2410;
+  color: #b7f0a8;
+  border-color: #0a2410;
 }
 
-/* ── Metrics ───────────────────────────────── */
-.wsMetricGrid {
+.wsDashStrategyArrow {
+  margin-left: auto;
+  opacity: .4;
+}
+
+.wsDashMonk {
+  position: absolute;
+  right: 12px; bottom: 8px;
+  width: 120px; height: 120px;
+  pointer-events: none;
+}
+
+/* Widgets */
+.wsDashWidget {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wsDashWidget:hover { transform: translateY(-2px); }
+
+.wsDashWidgetGrain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+  opacity: .04;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.wsDashWidget.wsDashCard:nth-child(4) { grid-row: 1 / span 2; grid-column: 3; }
+.wsDashWidget.wsDashCard:nth-child(5) { grid-row: 1 / span 2; grid-column: 4; }
+
+.wsDashWidgetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.wsDashWidgetLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ws-ink-dim);
+}
+
+.wsDashWidgetBadge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(182,243,163,.12);
+  color: var(--ws-accent);
+  border: 1px solid rgba(182,243,163,.2);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.wsDashWidgetDeco {
+  position: absolute;
+  top: 16px; right: 16px;
+  font-size: 20px;
+  filter: drop-shadow(0 0 8px rgba(255,180,100,.4));
+  pointer-events: none;
+}
+
+.wsDashWidgetHeroWrap {
+  position: relative;
+  margin: 10px 0 4px;
+}
+
+.wsDashWidgetHeroWrap::before {
+  content: "";
+  position: absolute;
+  left: -10px; top: 10%;
+  width: 110px; height: 80%;
+  background: radial-gradient(circle, var(--ws-accent-glow), transparent 70%);
+  filter: blur(18px);
+  opacity: .6;
+  pointer-events: none;
+}
+
+.wsDashWidgetHero {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--ws-ink);
+}
+
+.wsDashWidgetUnit {
+  font-size: 14px;
+  color: var(--ws-ink-dim);
+  margin-left: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.wsDashWidgetSub {
+  font-size: 12px;
+  color: var(--ws-ink-dim);
+  margin-bottom: 14px;
+}
+
+.wsDashWidgetSub strong { color: var(--ws-accent); font-weight: 600; }
+
+/* Dot row */
+.wsDashDotRow {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.wsDashDot {
+  flex: 1;
+  aspect-ratio: 1;
+  border-radius: 7px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--ws-stroke);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  place-items: center;
+  font-size: 9px;
+  color: var(--ws-ink-ghost);
+  font-weight: 600;
+  transition: all .3s cubic-bezier(.2,.8,.2,1);
 }
 
-@media (max-width: 480px) {
-  .wsMetricGrid {
-    grid-template-columns: 1fr;
-  }
+.wsDashDot--done {
+  background: var(--ws-accent);
+  border-color: var(--ws-accent);
+  color: #0a2410;
+  box-shadow: 0 0 12px var(--ws-accent-glow);
 }
 
-.wsMetricCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px 18px;
+.wsDashDot--today {
+  border-color: var(--ws-accent);
+  background: rgba(182,243,163,.08);
+  color: var(--ws-accent);
+  animation: wsDotPulse 2s ease-in-out infinite;
+}
+
+@keyframes wsDotPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(182,243,163,.3); }
+  50%      { box-shadow: 0 0 0 4px rgba(182,243,163,0); }
+}
+
+/* Bar chart */
+.wsDashBars {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+  height: 80px;
+  margin-top: auto;
+  padding: 0 2px;
+}
+
+.wsDashBarCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.wsDashBar {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(182,243,163,.6), rgba(182,243,163,.15));
+  border-radius: 4px 4px 2px 2px;
+  border: 1px solid rgba(182,243,163,.25);
+  transition: all .4s cubic-bezier(.2,.8,.2,1);
+  min-height: 6px;
+}
+
+.wsDashBar--today {
+  background: linear-gradient(180deg, var(--ws-accent), #4fbb78);
+  border-color: var(--ws-accent);
+  box-shadow: 0 0 10px var(--ws-accent-glow);
+}
+
+.wsDashBarLabel {
+  font-size: 9px;
+  color: var(--ws-ink-ghost);
+  font-weight: 600;
+  letter-spacing: .05em;
+}
+
+.wsDashWidgetFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--ws-ink-ghost);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--ws-stroke);
+}
+
+.wsDashWidgetFooter strong { color: var(--ws-ink); font-weight: 600; }
+
+/* ── Countdown banner ───────────────────────────────── */
+.wsDashCountdown {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: var(--ws-card);
+  border: 1px solid var(--ws-stroke);
+  border-radius: 20px;
+  padding: 24px 28px;
+}
+
+.wsDashCountdownLeft {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.wsMetricValue {
-  font-size: 26px;
-  font-weight: 500;
-  letter-spacing: -0.5px;
+.wsDashCountdownLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--ws-ink-dim);
+  font-weight: 600;
+}
+
+.wsDashCountdownDays {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.wsDashCountdownDays strong {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--ws-accent);
+  letter-spacing: -.03em;
+  text-shadow: 0 0 24px var(--ws-accent-glow);
   line-height: 1;
 }
 
-.wsMetricLabel {
+.wsDashCountdownDays span {
+  font-size: 16px;
+  color: var(--ws-ink-dim);
+}
+
+.wsDashCountdownDate {
   font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
+  color: var(--ws-ink-ghost);
 }
 
-/* ── Streak ────────────────────────────────── */
-.wsStreakSection {
+.wsDashCountdownRight {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
 }
 
-.wsStreakLabel {
-  margin: 0;
+.wsDashCountdownBarWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wsDashCountdownPct {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--ws-ink-dim);
+  font-weight: 600;
+  min-width: 32px;
 }
 
-.wsStreakDots {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.wsStreakDot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.wsStreakDot--green {
-  background: #3B6D11;
-  border-color: #3B6D11;
-}
-
-/* ── Tasks ─────────────────────────────────── */
-.wsTaskSection {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.wsTaskList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.wsTaskEmpty {
-  font-size: 13px;
-  color: var(--muted);
-  padding: 8px 0;
-}
-
-.wsTaskItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  transition: background 0.12s ease, border-color 0.12s ease;
-}
-
-.wsTaskItem:hover {
-  background: var(--surface);
-  border-color: var(--border);
-}
-
-.wsTaskCheck {
-  display: flex;
-  align-items: center;
-  gap: 9px;
+.wsDashCountdownBar {
   flex: 1;
-  cursor: pointer;
-  min-width: 0;
+  height: 4px;
+  background: rgba(255,255,255,.06);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.wsTaskCheck input[type="checkbox"] {
-  width: 14px;
-  height: 14px;
-  cursor: pointer;
-  accent-color: rgba(255, 255, 255, 0.8);
-  flex-shrink: 0;
+.wsDashCountdownBarFill {
+  height: 100%;
+  background: var(--ws-accent);
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--ws-accent-glow);
+  transition: width .6s ease;
 }
 
-.wsTaskText {
-  font-size: 14px;
-  color: var(--text);
-  line-height: 1.4;
-}
-
-.wsTaskText--done {
-  text-decoration: line-through;
-  color: var(--muted);
-}
-
-.wsTaskDelete {
-  background: none;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 10px;
-  padding: 4px 6px;
-  opacity: 0;
-  transition: opacity 0.12s ease, color 0.12s ease;
-  flex-shrink: 0;
-}
-
-.wsTaskItem:hover .wsTaskDelete {
-  opacity: 1;
-}
-
-.wsTaskDelete:hover {
-  color: var(--text);
-}
-
-/* ── Add form ───────────────────────────────── */
-.wsTaskAddForm {
+.wsDashCountdownLinks {
   display: flex;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.wsTaskAddInput {
-  flex: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 9px 12px;
-  font-size: 13px;
-  color: var(--text);
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.15s ease;
-  min-width: 0;
-}
-
-.wsTaskAddInput:focus {
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.wsTaskAddInput::placeholder {
-  color: var(--muted);
-}
-
-.wsTaskAddBtn {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 9px 16px;
-  font-size: 13px;
-  color: var(--text);
+.wsDashCountdownLinks button {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--ws-stroke);
+  border-radius: 10px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ws-ink-dim);
   cursor: pointer;
   font-family: inherit;
-  white-space: nowrap;
-  transition: background 0.12s ease;
-  flex-shrink: 0;
+  transition: all .15s ease;
 }
 
-.wsTaskAddBtn:hover {
-  background: var(--surface-hover);
+.wsDashCountdownLinks button:hover {
+  border-color: var(--ws-stroke-2);
+  color: var(--ws-ink);
 }
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .wsDashGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    min-height: auto;
+  }
+
+  .wsDashTimer    { grid-row: auto; grid-column: auto; }
+  .wsDashOKRs     { grid-row: auto; grid-column: auto; }
+  .wsDashStrategy { grid-row: auto; grid-column: 1 / -1; min-height: 220px; }
+
+  .wsDashWidget.wsDashCard:nth-child(4),
+  .wsDashWidget.wsDashCard:nth-child(5) {
+    grid-row: auto;
+    grid-column: auto;
+    min-height: 240px;
+  }
+
+  .wsDashCountdown { flex-direction: column; align-items: flex-start; }
+  .wsDashCountdownRight { width: 100%; }
+  .wsDashStrategyItem { padding-right: 60px; }
+  .wsDashMonk { width: 80px; height: 80px; }
+}
+
+@media (max-width: 600px) {
+  .wsDashHero { padding: 22px 20px 24px; }
+  .wsDashQuote { font-size: 20px; }
+  .wsDashGrid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .wsDashStrategy { grid-column: 1 / -1; }
+
+  .wsDashWidget.wsDashCard:nth-child(4),
+  .wsDashWidget.wsDashCard:nth-child(5) { grid-column: 1 / -1; }
+}
+

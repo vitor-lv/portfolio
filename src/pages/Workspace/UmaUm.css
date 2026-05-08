@@ -1,0 +1,406 @@
+.wsUmaUm {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.wsUmaUmActions {
+  display: flex;
+}
+
+.wsUmaUmAddEntryBtn {
+  background: var(--text);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.wsUmaUmAddEntryBtn:hover {
+  opacity: 0.85;
+}
+
+/* ── Section ────────────────────────────────── */
+.wsUmaUmSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Empty ──────────────────────────────────── */
+.wsUmaUmEmpty {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wsUmaUmEmpty p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.wsUmaUmEmptyHint {
+  font-size: 13px !important;
+  opacity: 0.7;
+}
+
+/* ── List ───────────────────────────────────── */
+.wsUmaUmList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Card ───────────────────────────────────── */
+.wsUmaUmCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.wsUmaUmCard:hover {
+  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.wsUmaUmCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.wsUmaUmCardDate {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.wsUmaUmCardPauta {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.wsUmaUmCardPauta em {
+  font-style: italic;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.wsUmaUmCardPreview {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* ── Pending card ───────────────────────────── */
+.wsUmaUmPendingCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wsUmaUmPendingItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wsUmaUmPendingText {
+  font-size: 13px;
+  color: var(--text);
+  flex: 1;
+}
+
+/* ── Detail view ────────────────────────────── */
+.wsUmaUmDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.wsUmaUmDetailNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wsUmaUmDetailNavRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wsUmaUmBackBtn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: color 0.12s ease;
+}
+
+.wsUmaUmBackBtn:hover {
+  color: var(--text);
+}
+
+.wsUmaUmCopyBtn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.wsUmaUmCopyBtn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text);
+}
+
+.wsUmaUmDeleteBtn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: color 0.12s ease;
+}
+
+.wsUmaUmDeleteBtn:hover {
+  color: #e07070;
+}
+
+/* ── Form ───────────────────────────────────── */
+.wsUmaUmForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wsUmaUmFormRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .wsUmaUmFormRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wsUmaUmLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wsUmaUmInput {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+  color-scheme: dark;
+}
+
+.wsUmaUmInput:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.wsUmaUmInput::placeholder {
+  color: var(--muted);
+}
+
+.wsUmaUmTextarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  line-height: 1.55;
+  transition: border-color 0.15s ease;
+  min-height: 100px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.wsUmaUmTextarea:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.wsUmaUmTextarea::placeholder {
+  color: var(--muted);
+}
+
+/* ── Ações / next steps ─────────────────────── */
+.wsUmaUmAcoesBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wsUmaUmAcoesLabel {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wsUmaUmAcoesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wsUmaUmAcaoItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.1s ease;
+}
+
+.wsUmaUmAcaoItem:hover {
+  background: var(--surface);
+}
+
+.wsUmaUmAcaoCheck {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.wsUmaUmAcaoCheck input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+  accent-color: rgba(255, 255, 255, 0.8);
+  flex-shrink: 0;
+}
+
+.wsUmaUmAcaoText--done {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.wsUmaUmAcaoRemove {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 2px 5px;
+  opacity: 0;
+  transition: opacity 0.1s ease, color 0.1s ease;
+}
+
+.wsUmaUmAcaoItem:hover .wsUmaUmAcaoRemove {
+  opacity: 1;
+}
+
+.wsUmaUmAcaoRemove:hover {
+  color: var(--text);
+}
+
+.wsUmaUmAcaoAdd {
+  display: flex;
+  gap: 6px;
+}
+
+.wsUmaUmAcaoAdd .wsUmaUmInput {
+  flex: 1;
+}
+
+.wsUmaUmAddBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 16px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.1s ease, color 0.1s ease;
+  flex-shrink: 0;
+}
+
+.wsUmaUmAddBtn:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+/* ── Save button ────────────────────────────── */
+.wsUmaUmSaveBtn {
+  align-self: flex-start;
+  background: var(--text);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.wsUmaUmSaveBtn:hover {
+  opacity: 0.85;
+}
+

@@ -1,70 +1,120 @@
-/* ── Layout ─────────────────────────────────────── */
+/* ── Design tokens (workspace light theme) ──────────── */
 .wsLayout {
+  --bg:           #F2EDE6;
+  --surface:      #FFFFFF;
+  --surface-hover: #F7F4F0;
+  --surface-dark: #1A1A1A;
+  --text:         #1A1A1A;
+  --muted:        #8A8580;
+  --border:       #E8E2DA;
+  --accent:       #D4A843;
+  --accent-red:   #E05A4E;
+  --accent-green: #4CAF76;
+
+  --sidebar-collapsed: 56px;
+  --sidebar-expanded:  220px;
+  --sidebar-transition: width 200ms ease;
+
+  --card-radius:  16px;
+  --card-shadow:  0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+
   display: flex;
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
 }
 
-/* ── Sidebar ─────────────────────────────────────── */
+/* ── Sidebar (desktop) ──────────────────────────────── */
 .wsSidebar {
-  width: 200px;
+  width: var(--sidebar-expanded);
   flex-shrink: 0;
   border-right: 1px solid var(--border);
+  background: var(--surface);
   display: flex;
   flex-direction: column;
-  padding: 24px 0 20px;
+  padding: 20px 0 16px;
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  background: var(--bg);
   z-index: 50;
-  transition: transform 0.25s ease;
+  transition: var(--sidebar-transition);
+  overflow: hidden;
 }
 
-.wsSidebarHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px 24px;
+.wsSidebar--collapsed {
+  width: var(--sidebar-collapsed);
 }
 
+/* Logo */
 .wsSidebarLogo {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.wsSidebarClose {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--muted);
   font-size: 13px;
-  cursor: pointer;
-  padding: 4px;
-  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  padding: 0 0 20px 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
+/* Nav */
 .wsSidebarNav {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  padding: 0 10px;
+  padding: 0 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.wsSidebarLink {
+.wsSidebarGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.wsSidebarGroup--spaced {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.wsSidebarGroupLabel {
   display: block;
-  padding: 9px 12px;
-  border-radius: 8px;
-  font-size: 14px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 12px 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 150ms ease, max-height 150ms ease;
+}
+
+.wsSidebar--collapsed .wsSidebarGroupLabel {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Nav links */
+.wsSidebarLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13.5px;
   font-weight: 400;
   color: var(--muted);
   text-decoration: none;
   transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .wsSidebarLink:hover {
@@ -73,46 +123,137 @@
 }
 
 .wsSidebarLink--active {
-  background: var(--surface);
+  background: var(--bg);
   color: var(--text);
   font-weight: 500;
 }
 
-.wsSidebarLogout {
-  margin: 12px 10px 0;
-  padding: 9px 12px;
-  border-radius: 8px;
-  border: none;
-  background: none;
-  font-size: 13px;
-  color: var(--muted);
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  transition: color 0.15s ease;
-}
-
-.wsSidebarLogout:hover {
+.wsSidebarLink--active .wsSidebarIcon {
   color: var(--text);
 }
 
-/* ── Main area ─────────────────────────────────── */
+/* Icon + label */
+.wsSidebarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.wsSidebarLabel {
+  opacity: 1;
+  transition: opacity 150ms ease;
+  overflow: hidden;
+}
+
+.wsSidebar--collapsed .wsSidebarLabel {
+  opacity: 0;
+}
+
+/* Footer */
+.wsSidebarFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 8px 0;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.wsSidebarToggle,
+.wsSidebarLogout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  background: none;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: background 0.15s ease, color 0.15s ease;
+  width: 100%;
+}
+
+.wsSidebarToggle:hover,
+.wsSidebarLogout:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.wsSidebarAvatar {
+  display: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-dark);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  align-items: center;
+  justify-content: center;
+  margin: 8px auto 0;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.wsSidebar--collapsed .wsSidebarAvatar {
+  display: flex;
+}
+
+/* ── Mobile drawer ──────────────────────────────────── */
+.wsMobileDrawer {
+  display: none;
+}
+
+/* ── Main area ──────────────────────────────────────── */
 .wsMain {
   flex: 1;
-  margin-left: 200px;
+  margin-left: var(--sidebar-expanded);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  transition: margin-left var(--sidebar-transition);
 }
 
-/* ── Topbar (mobile only) ────────────────────── */
+.wsSidebar--collapsed ~ .wsMain,
+.wsSidebar--collapsed + * + .wsMain {
+  margin-left: var(--sidebar-collapsed);
+}
+
+/* Workaround: JS manages margin via class on wsLayout */
+.wsLayout--collapsed .wsMain {
+  margin-left: var(--sidebar-collapsed);
+}
+
+.wsContent {
+  flex: 1;
+  padding: 36px 32px;
+}
+
+.wsPageContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Mobile topbar ──────────────────────────────────── */
 .wsTopbar {
   display: none;
   align-items: center;
   gap: 12px;
   padding: 14px 20px;
   border-bottom: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--surface);
   position: sticky;
   top: 0;
   z-index: 40;
@@ -139,7 +280,7 @@
 
 .wsTopbarLogo {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--muted);
   flex: 1;
@@ -154,42 +295,55 @@
   font-family: inherit;
 }
 
-.wsContent {
-  flex: 1;
-  padding: 36px 40px;
-  max-width: 860px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* ── Overlay ─────────────────────────────────── */
+/* ── Overlay ────────────────────────────────────────── */
 .wsOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 49;
   border: none;
   cursor: pointer;
 }
 
-/* ── Responsive ─────────────────────────────── */
+/* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
   .wsSidebar {
-    transform: translateX(-100%);
-    width: 240px;
-    z-index: 60;
+    display: none;
   }
 
-  .wsSidebarOpen {
+  .wsMobileDrawer {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 60;
+    padding: 20px 8px 16px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+  }
+
+  .wsMobileDrawer--open {
     transform: translateX(0);
   }
 
-  .wsSidebarClose {
-    display: block;
+  .wsMobileDrawer .wsSidebarLabel {
+    opacity: 1 !important;
+  }
+
+  .wsMobileDrawer .wsSidebarGroupLabel {
+    opacity: 1 !important;
+    max-height: unset !important;
+    padding: 8px 12px 3px !important;
   }
 
   .wsMain {
-    margin-left: 0;
+    margin-left: 0 !important;
   }
 
   .wsTopbar {
@@ -201,7 +355,7 @@
   }
 }
 
-/* ── Shared badge classes ────────────────────── */
+/* ── Shared badge classes ────────────────────────────── */
 .wsBadge {
   display: inline-flex;
   align-items: center;
@@ -213,22 +367,32 @@
   white-space: nowrap;
 }
 
-.wsBadge--green  { background: #EAF3DE; color: #3B6D11; }
-.wsBadge--amber  { background: #FAEEDA; color: #854F0B; }
-.wsBadge--red    { background: #FCEBEB; color: #A32D2D; }
-.wsBadge--blue   { background: #E6F1FB; color: #185FA5; }
-.wsBadge--purple { background: #EEEDFE; color: #3C3489; }
-.wsBadge--teal   { background: #E1F5EE; color: #0F6E56; }
+.wsBadge--green  { background: #D1FAE5; color: #065F46; }
+.wsBadge--amber  { background: #FEF3C7; color: #92400E; }
+.wsBadge--red    { background: #FEE2E2; color: #991B1B; }
+.wsBadge--blue   { background: #DBEAFE; color: #1E40AF; }
+.wsBadge--purple { background: #EDE9FE; color: #5B21B6; }
+.wsBadge--teal   { background: #CCFBF1; color: #0F766E; }
 
-/* ── Shared card ─────────────────────────────── */
+/* ── Shared card ─────────────────────────────────────── */
 .wsCard {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: var(--card-radius);
+  padding: 24px;
+  box-shadow: var(--card-shadow);
 }
 
-/* ── Page header pattern ─────────────────────── */
+.wsCard--dark {
+  background: var(--surface-dark);
+  color: #fff;
+  border: none;
+  box-shadow: var(--card-shadow);
+  border-radius: var(--card-radius);
+  padding: 24px;
+}
+
+/* ── Page header pattern ─────────────────────────────── */
 .wsPageHeader {
   margin-bottom: 28px;
 }
@@ -236,8 +400,9 @@
 .wsPageTitle {
   margin: 0 0 4px;
   font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.4px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--text);
 }
 
 .wsPageSubtitle {
@@ -246,17 +411,34 @@
   color: var(--muted);
 }
 
-/* ── Section heading ─────────────────────────── */
+/* ── Section heading ─────────────────────────────────── */
 .wsSectionTitle {
   margin: 0 0 14px;
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: -0.2px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  color: var(--text);
 }
 
-/* ── Divider ─────────────────────────────────── */
+/* ── Divider ─────────────────────────────────────────── */
 .wsDivider {
   height: 1px;
   background: var(--border);
   margin: 16px 0;
 }
+
+/* ── Progress bar ────────────────────────────────────── */
+.wsProgressBar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.wsProgressBarFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 400ms ease;
+}
+
