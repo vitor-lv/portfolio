@@ -10,6 +10,7 @@ import CaseView from "./pages/CaseView";
 import WorkspaceGuard from "./pages/Workspace/WorkspaceGuard";
 import WorkspaceLogin from "./pages/Workspace/WorkspaceLogin";
 import WorkspaceLayout from "./pages/Workspace/WorkspaceLayout";
+import { WorkspaceSpaceProvider } from "./contexts/WorkspaceSpaceContext";
 import WSHome from "./pages/Workspace/Home";
 import Semana from "./pages/Workspace/Semana";
 import Planos from "./pages/Workspace/Planos";
@@ -36,7 +37,7 @@ export default function App() {
           <Route path="/workspace/login" element={<WorkspaceLogin />} />
           <Route path="/workspace" element={<WorkspaceGuard />}>
             <Route index element={<Navigate to="/workspace/home" replace />} />
-            <Route element={<WorkspaceLayout />}>
+            <Route element={<WorkspaceSpaceProvider><WorkspaceLayout /></WorkspaceSpaceProvider>}>
               <Route path="home" element={<WSHome />} />
               <Route path="semana" element={<Semana />} />
               <Route path="planos" element={<Planos />} />

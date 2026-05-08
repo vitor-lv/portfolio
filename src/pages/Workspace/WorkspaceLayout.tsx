@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { clearWsTrusted } from "./WorkspaceGuard";
+import { useSpace } from "../../contexts/WorkspaceSpaceContext";
 import "./WorkspaceLayout.css";
 
 /* ── Icons ─────────────────────────────────────────── */
@@ -60,16 +61,6 @@ const IcoDados = () => (
     <path d="M3 7.5v3c0 1.1 2.24 2 5 2s5-.9 5-2v-3"/>
   </svg>
 );
-const IcoChevronRight = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 3l4 4-4 4"/>
-  </svg>
-);
-const IcoChevronLeft = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 3L5 7l4 4"/>
-  </svg>
-);
 const IcoLogout = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M5.5 2H2.5a1 1 0 00-1 1v8a1 1 0 001 1h3"/>
@@ -94,93 +85,54 @@ const NAV_GROUPS = [
   {
     label: "Semana",
     items: [
-      { to: "/workspace/semana",   label: "Ritual Semanal", icon: <IcoSemana /> },
-      { to: "/workspace/um-a-um",  label: "1:1s",           icon: <IcoUmaUm /> },
-      { to: "/workspace/benchmarks", label: "Benchmarks",   icon: <IcoBenchmarks /> },
+      { to: "/workspace/semana",     label: "Ritual Semanal", icon: <IcoSemana /> },
+      { to: "/workspace/um-a-um",    label: "1:1s",           icon: <IcoUmaUm /> },
+      { to: "/workspace/benchmarks", label: "Benchmarks",     icon: <IcoBenchmarks /> },
     ],
   },
   {
     label: "Revisão",
     items: [
-      { to: "/workspace/historico", label: "Arquivo",       icon: <IcoArquivo /> },
+      { to: "/workspace/historico", label: "Arquivo",        icon: <IcoArquivo /> },
       { to: "/workspace/dados",     label: "Backup & Dados", icon: <IcoDados /> },
     ],
   },
 ];
 
+const SCROLL_SHOW_THRESHOLD = 40;
+const SCROLL_TOP_THRESHOLD = 24;
+
 /* ── Component ──────────────────────────────────────── */
 export default function WorkspaceLayout() {
-  const [collapsed, setCollapsed] = useState(() => {
-    return localStorage.getItem("lv:sidebar_collapsed") !== "false";
-  });
+  const { space, setSpace } = useSpace();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [topbarHidden, setTopbarHidden] = useState(true);
+  const prevScrollY = useRef(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY;
+      if (y <= SCROLL_TOP_THRESHOLD) {
+        setTopbarHidden(true);
+      } else if (y > prevScrollY.current && y > SCROLL_SHOW_THRESHOLD) {
+        setTopbarHidden(false);
+      } else if (y < prevScrollY.current) {
+        setTopbarHidden(true);
+      }
+      prevScrollY.current = y;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function handleLogout() {
     clearWsTrusted();
     navigate("/workspace/login", { replace: true });
   }
 
-  function toggleCollapsed() {
-    const next = !collapsed;
-    setCollapsed(next);
-    localStorage.setItem("lv:sidebar_collapsed", String(next));
-  }
-
   return (
     <div className="wsLayout">
-      {/* Desktop sidebar */}
-      <aside className={`wsSidebar${collapsed ? " wsSidebar--collapsed" : ""}`}>
-        <div className="wsSidebarLogo">LV</div>
-
-        <nav className="wsSidebarNav">
-          {NAV_GROUPS.map((group, gi) => (
-            <div key={gi} className={`wsSidebarGroup${gi > 0 ? " wsSidebarGroup--spaced" : ""}`}>
-              {group.label && (
-                <span className="wsSidebarGroupLabel">{group.label}</span>
-              )}
-              {group.items.map(item => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    `wsSidebarLink${isActive ? " wsSidebarLink--active" : ""}`
-                  }
-                  title={collapsed ? item.label : undefined}
-                >
-                  <span className="wsSidebarIcon">{item.icon}</span>
-                  <span className="wsSidebarLabel">{item.label}</span>
-                </NavLink>
-              ))}
-            </div>
-          ))}
-        </nav>
-
-        <div className="wsSidebarFooter">
-          <button
-            className="wsSidebarToggle"
-            onClick={toggleCollapsed}
-            aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
-            title={collapsed ? "Expandir" : "Recolher"}
-          >
-            <span className="wsSidebarIcon">
-              {collapsed ? <IcoChevronRight /> : <IcoChevronLeft />}
-            </span>
-            <span className="wsSidebarLabel">Recolher</span>
-          </button>
-          <button
-            className="wsSidebarLogout"
-            onClick={handleLogout}
-            title="Sair"
-            aria-label="Sair"
-          >
-            <span className="wsSidebarIcon"><IcoLogout /></span>
-            <span className="wsSidebarLabel">Sair</span>
-          </button>
-          <div className="wsSidebarAvatar">LV</div>
-        </div>
-      </aside>
-
       {/* Mobile overlay */}
       {menuOpen && (
         <button
@@ -192,7 +144,19 @@ export default function WorkspaceLayout() {
 
       {/* Mobile drawer */}
       <aside className={`wsMobileDrawer${menuOpen ? " wsMobileDrawer--open" : ""}`}>
-        <div className="wsSidebarLogo" style={{ paddingBottom: 16 }}>LV</div>
+        <div className="wsSidebarLogo" style={{ paddingBottom: 12 }}>LV</div>
+
+        <div className="wsSpaceSwitcher">
+          <button
+            className={`wsSpaceBtn${space === "itau" ? " wsSpaceBtn--active" : ""}`}
+            onClick={() => setSpace("itau")}
+          >Itaú</button>
+          <button
+            className={`wsSpaceBtn${space === "pessoal" ? " wsSpaceBtn--active" : ""}`}
+            onClick={() => setSpace("pessoal")}
+          >Pessoal</button>
+        </div>
+
         <nav className="wsSidebarNav">
           {NAV_GROUPS.map((group, gi) => (
             <div key={gi} className={`wsSidebarGroup${gi > 0 ? " wsSidebarGroup--spaced" : ""}`}>
@@ -215,6 +179,7 @@ export default function WorkspaceLayout() {
             </div>
           ))}
         </nav>
+
         <div className="wsSidebarFooter" style={{ flexDirection: "row", gap: 8 }}>
           <button className="wsSidebarLogout" onClick={handleLogout}>
             <span className="wsSidebarIcon"><IcoLogout /></span>
@@ -224,6 +189,33 @@ export default function WorkspaceLayout() {
       </aside>
 
       <div className="wsMain">
+        {/* Desktop topbar (scroll-reveal) */}
+        <header className={`wsDesktopTopbar${topbarHidden ? " wsDesktopTopbar--hidden" : ""}`}>
+          <div className="wsDesktopGreeting">
+            <h1>LV Workspace</h1>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div className="wsSpaceSwitcher">
+              <button
+                className={`wsSpaceBtn${space === "itau" ? " wsSpaceBtn--active" : ""}`}
+                onClick={() => setSpace("itau")}
+              >Itaú</button>
+              <button
+                className={`wsSpaceBtn${space === "pessoal" ? " wsSpaceBtn--active" : ""}`}
+                onClick={() => setSpace("pessoal")}
+              >Pessoal</button>
+            </div>
+            <button
+              className="wsSidebarLogout"
+              style={{ width: "auto" }}
+              onClick={handleLogout}
+            >
+              <span className="wsSidebarIcon"><IcoLogout /></span>
+              <span>Sair</span>
+            </button>
+          </div>
+        </header>
+
         {/* Mobile topbar */}
         <header className="wsTopbar">
           <button
@@ -246,4 +238,3 @@ export default function WorkspaceLayout() {
     </div>
   );
 }
-

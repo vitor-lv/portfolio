@@ -1,19 +1,17 @@
 /* ── Design tokens (workspace dark theme) ──────────── */
 .wsLayout {
-  --bg:           #0d0d0d;
-  --surface:      rgba(255,255,255,0.04);
+  --bg:            #0d0d0d;
+  --surface:       rgba(255,255,255,0.04);
   --surface-hover: rgba(255,255,255,0.07);
-  --surface-dark: #1A1A1A;
-  --text:         rgba(255,255,255,0.92);
-  --muted:        rgba(255,255,255,0.45);
-  --border:       rgba(255,255,255,0.1);
-  --accent:       #b6f3a3;
-  --accent-red:   #E05A4E;
-  --accent-green: #4CAF76;
-
-  --sidebar-collapsed: 56px;
-  --sidebar-expanded:  220px;
-  --sidebar-transition: width 200ms ease;
+  --surface-dark:  #1A1A1A;
+  --surface-2:     #141416;
+  --text:          rgba(255,255,255,0.92);
+  --muted:         rgba(255,255,255,0.45);
+  --muted-2:       rgba(255,255,255,0.35);
+  --border:        rgba(255,255,255,0.1);
+  --accent:        #b6f3a3;
+  --accent-red:    #E05A4E;
+  --accent-green:  #4CAF76;
 
   --card-radius:  12px;
   --card-shadow:  none;
@@ -25,45 +23,112 @@
   font-family: 'Inter', -apple-system, sans-serif;
 }
 
-/* ── Sidebar (desktop) ──────────────────────────────── */
-.wsSidebar {
-  width: var(--sidebar-expanded);
-  flex-shrink: 0;
-  border-right: 1px solid var(--border);
-  background: var(--surface);
+/* ── Main area ──────────────────────────────────────── */
+.wsMain {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px 0 16px;
-  position: fixed;
+  min-height: 100vh;
+}
+
+.wsContent {
+  flex: 1;
+  padding: 36px 32px;
+}
+
+.wsPageContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Desktop topbar (scroll-reveal) ─────────────────── */
+.wsDesktopTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 60px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
   top: 0;
-  left: 0;
-  height: 100vh;
-  z-index: 50;
-  transition: var(--sidebar-transition);
-  overflow: hidden;
+  z-index: 30;
+  gap: 12px;
+  transform: translateY(0);
+  transition: transform 0.28s ease, opacity 0.28s ease;
 }
 
-.wsSidebar--collapsed {
-  width: var(--sidebar-collapsed);
+.wsDesktopTopbar--hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* Logo */
+.wsDesktopGreeting h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.4px;
+}
+
+/* ── Space switcher ─────────────────────────────────── */
+.wsSpaceSwitcher {
+  display: flex;
+  gap: 4px;
+  background: var(--surface-dark);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px;
+  margin-bottom: 12px;
+}
+
+.wsSpaceBtn {
+  flex: 1;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.wsSpaceBtn--active {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* Inside topbar: no bottom margin */
+.wsDesktopTopbar .wsSpaceSwitcher {
+  margin-bottom: 0;
+}
+
+/* ── Mobile drawer ──────────────────────────────────── */
+.wsMobileDrawer {
+  display: none;
+}
+
+/* ── Sidebar shared styles (used inside drawer) ─────── */
 .wsSidebarLogo {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--muted);
-  padding: 0 0 20px 20px;
+  padding: 0 0 20px 12px;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-/* Nav */
 .wsSidebarNav {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 8px;
+  padding: 0 0px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -89,19 +154,8 @@
   color: var(--muted);
   padding: 8px 12px 3px;
   white-space: nowrap;
-  overflow: hidden;
-  opacity: 1;
-  transition: opacity 150ms ease, max-height 150ms ease;
 }
 
-.wsSidebar--collapsed .wsSidebarGroupLabel {
-  opacity: 0;
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-/* Nav links */
 .wsSidebarLink {
   display: flex;
   align-items: center;
@@ -114,7 +168,6 @@
   text-decoration: none;
   transition: background 0.15s ease, color 0.15s ease;
   white-space: nowrap;
-  overflow: hidden;
 }
 
 .wsSidebarLink:hover {
@@ -128,11 +181,6 @@
   font-weight: 500;
 }
 
-.wsSidebarLink--active .wsSidebarIcon {
-  color: var(--text);
-}
-
-/* Icon + label */
 .wsSidebarIcon {
   display: flex;
   align-items: center;
@@ -144,26 +192,18 @@
 
 .wsSidebarLabel {
   opacity: 1;
-  transition: opacity 150ms ease;
-  overflow: hidden;
 }
 
-.wsSidebar--collapsed .wsSidebarLabel {
-  opacity: 0;
-}
-
-/* Footer */
 .wsSidebarFooter {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  padding: 8px 8px 0;
+  padding: 8px 0 0;
   border-top: 1px solid var(--border);
   margin-top: 8px;
   flex-shrink: 0;
 }
 
-.wsSidebarToggle,
 .wsSidebarLogout {
   display: flex;
   align-items: center;
@@ -179,71 +219,13 @@
   font-family: inherit;
   text-align: left;
   white-space: nowrap;
-  overflow: hidden;
   transition: background 0.15s ease, color 0.15s ease;
   width: 100%;
 }
 
-.wsSidebarToggle:hover,
 .wsSidebarLogout:hover {
   background: var(--surface-hover);
   color: var(--text);
-}
-
-.wsSidebarAvatar {
-  display: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--surface-dark);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 600;
-  align-items: center;
-  justify-content: center;
-  margin: 8px auto 0;
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
-}
-
-.wsSidebar--collapsed .wsSidebarAvatar {
-  display: flex;
-}
-
-/* ── Mobile drawer ──────────────────────────────────── */
-.wsMobileDrawer {
-  display: none;
-}
-
-/* ── Main area ──────────────────────────────────────── */
-.wsMain {
-  flex: 1;
-  margin-left: var(--sidebar-expanded);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  transition: margin-left var(--sidebar-transition);
-}
-
-.wsSidebar--collapsed ~ .wsMain,
-.wsSidebar--collapsed + * + .wsMain {
-  margin-left: var(--sidebar-collapsed);
-}
-
-/* Workaround: JS manages margin via class on wsLayout */
-.wsLayout--collapsed .wsMain {
-  margin-left: var(--sidebar-collapsed);
-}
-
-.wsContent {
-  flex: 1;
-  padding: 36px 32px;
-}
-
-.wsPageContainer {
-  max-width: 1100px;
-  margin: 0 auto;
-  width: 100%;
 }
 
 /* ── Mobile topbar ──────────────────────────────────── */
@@ -307,7 +289,7 @@
 
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  .wsSidebar {
+  .wsDesktopTopbar {
     display: none;
   }
 
@@ -330,16 +312,6 @@
 
   .wsMobileDrawer--open {
     transform: translateX(0);
-  }
-
-  .wsMobileDrawer .wsSidebarLabel {
-    opacity: 1 !important;
-  }
-
-  .wsMobileDrawer .wsSidebarGroupLabel {
-    opacity: 1 !important;
-    max-height: unset !important;
-    padding: 8px 12px 3px !important;
   }
 
   .wsMain {
@@ -441,4 +413,3 @@
   border-radius: 99px;
   transition: width 400ms ease;
 }
-
